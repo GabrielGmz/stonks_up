@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Finanzas Aesthetic</title>
+    <title>Mis Finanzas Aesthetic (Dark)</title>
     
     <!-- Tailwind CSS para los estilos -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,12 +12,12 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Configuración PWA y Meta Tags -->
-    <meta name="theme-color" content="#BCA0DC">
+    <meta name="theme-color" content="#0F0F13">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Finanzas">
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='192' height='192' style='background-color:%23FFF5F8'%3E%3Cpath fill='%23BCA0DC' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='192' height='192' style='background-color:%230F0F13'%3E%3Cpath fill='%239D7CD8' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E">
     <link rel="manifest" id="pwa-manifest">
 
     <!-- Estilos personalizados para la barra de desplazamiento -->
@@ -29,11 +29,11 @@
             background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #F4CCD4;
+            background-color: #3D3D48;
             border-radius: 10px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background-color: #EBAFC0;
+            background-color: #5A5A66;
         }
         
         /* Animaciones suaves para las tarjetas */
@@ -45,20 +45,27 @@
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Ocultar flechas en inputs de número */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     </style>
 </head>
-<body class="min-h-screen bg-[#FFF5F8] text-[#5D4A55] font-sans selection:bg-[#FDE2E8]">
+<body class="min-h-screen bg-[#0F0F13] text-[#E2E2E5] font-sans selection:bg-[#9D7CD8]/30">
     <div class="max-w-4xl mx-auto p-5 md:p-8 pt-10">
         
         <!-- Header -->
         <header class="mb-10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
             <div>
                 <h1 class="text-3xl md:text-4xl font-light tracking-tight flex items-center justify-center md:justify-start gap-2">
-                    Mis Finanzas <i data-lucide="sparkles" class="w-6 h-6 text-[#FFB7B2]" stroke-width="1.5"></i>
+                    Mis Finanzas <i data-lucide="sparkles" class="w-6 h-6 text-[#9D7CD8]" stroke-width="1.5"></i>
                 </h1>
-                <p class="text-[#A8929E] mt-2 font-light">Control de pedidos y ganancias</p>
+                <p class="text-[#8B8B99] mt-2 font-light">Control de pedidos y ganancias</p>
             </div>
-            <button id="installBtn" class="hidden flex items-center justify-center gap-2 text-sm bg-white text-[#BCA0DC] px-5 py-2.5 rounded-2xl shadow-[0_4px_15px_rgb(0,0,0,0.03)] border border-[#FCEEF2] hover:bg-[#FFF5F8] transition-colors font-medium">
+            <button id="installBtn" class="hidden flex items-center justify-center gap-2 text-sm bg-[#1C1C22] text-[#9D7CD8] px-5 py-2.5 rounded-2xl shadow-[0_4px_15px_rgb(0,0,0,0.2)] border border-[#2D2D35] hover:bg-[#25252D] transition-colors font-medium">
                 <i data-lucide="download" class="w-4 h-4"></i> Instalar App
             </button>
         </header>
@@ -66,33 +73,33 @@
         <!-- Tarjetas de Resumen -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
             <!-- Ingresos -->
-            <div class="bg-white p-6 rounded-[2rem] shadow-[0_4px_20px_rgb(0,0,0,0.02)] border border-[#FCEEF2] flex flex-col justify-between hover:shadow-[0_4px_25px_rgb(0,0,0,0.04)] transition-shadow">
+            <div class="bg-[#1C1C22] p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#2D2D35] flex flex-col justify-between hover:border-[#3D3D48] transition-colors">
                 <div class="flex justify-between items-start mb-4">
-                    <span class="text-[#A8929E] font-medium text-sm tracking-wide uppercase">Ingresos Totales</span>
-                    <div class="p-3 bg-[#E8F8F5] rounded-2xl">
-                        <i data-lucide="trending-up" class="w-5 h-5 text-[#5FC5A8]"></i>
+                    <span class="text-[#8B8B99] font-medium text-sm tracking-wide uppercase">Ingresos Totales</span>
+                    <div class="p-3 bg-[#73DACA]/10 rounded-2xl">
+                        <i data-lucide="trending-up" class="w-5 h-5 text-[#73DACA]"></i>
                     </div>
                 </div>
-                <p id="totalIncome" class="text-3xl font-light text-[#4A3B43]">$0.00</p>
+                <p id="totalIncome" class="text-3xl font-light text-white">$0.00</p>
             </div>
 
             <!-- Gastos -->
-            <div class="bg-white p-6 rounded-[2rem] shadow-[0_4px_20px_rgb(0,0,0,0.02)] border border-[#FCEEF2] flex flex-col justify-between hover:shadow-[0_4px_25px_rgb(0,0,0,0.04)] transition-shadow">
+            <div class="bg-[#1C1C22] p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#2D2D35] flex flex-col justify-between hover:border-[#3D3D48] transition-colors">
                 <div class="flex justify-between items-start mb-4">
-                    <span class="text-[#A8929E] font-medium text-sm tracking-wide uppercase">Gastos en Pedidos</span>
-                    <div class="p-3 bg-[#FFEBF0] rounded-2xl">
-                        <i data-lucide="trending-down" class="w-5 h-5 text-[#F28C9C]"></i>
+                    <span class="text-[#8B8B99] font-medium text-sm tracking-wide uppercase">Gastos en Pedidos</span>
+                    <div class="p-3 bg-[#F7768E]/10 rounded-2xl">
+                        <i data-lucide="trending-down" class="w-5 h-5 text-[#F7768E]"></i>
                     </div>
                 </div>
-                <p id="totalExpense" class="text-3xl font-light text-[#4A3B43]">$0.00</p>
+                <p id="totalExpense" class="text-3xl font-light text-white">$0.00</p>
             </div>
 
             <!-- Ganancia -->
-            <div class="bg-[#BCA0DC] text-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgba(188,160,220,0.3)] flex flex-col justify-between relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-20 rounded-full blur-2xl"></div>
+            <div class="bg-[#9D7CD8] text-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgba(157,124,216,0.25)] flex flex-col justify-between relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full blur-2xl"></div>
                 <div class="flex justify-between items-start mb-4 relative z-10">
                     <span class="text-white/90 font-medium text-sm tracking-wide uppercase">Ganancia Neta</span>
-                    <div class="p-3 bg-white/25 rounded-2xl backdrop-blur-sm">
+                    <div class="p-3 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/10">
                         <i data-lucide="wallet" class="w-5 h-5 text-white"></i>
                     </div>
                 </div>
@@ -104,39 +111,39 @@
             
             <!-- Formulario -->
             <div class="lg:col-span-1">
-                <div class="bg-white p-6 rounded-[2rem] shadow-[0_4px_20px_rgb(0,0,0,0.02)] border border-[#FCEEF2]">
-                    <h2 class="text-xl font-medium mb-6 text-[#4A3B43]">Nuevo Registro</h2>
+                <div class="bg-[#1C1C22] p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#2D2D35] sticky top-8">
+                    <h2 id="formTitle" class="text-xl font-medium mb-6 text-white">Nuevo Registro</h2>
                     <form id="transactionForm" class="space-y-5">
                         
                         <!-- Selector de Tipo -->
-                        <div class="grid grid-cols-2 gap-3 p-1 bg-[#FFF5F8] rounded-2xl">
+                        <div class="grid grid-cols-2 gap-3 p-1 bg-[#0F0F13] rounded-2xl border border-[#2D2D35]">
                             <button
                                 type="button"
                                 id="btnIngreso"
-                                class="py-3 px-4 rounded-xl text-sm font-medium transition-all bg-white text-[#5FC5A8] shadow-sm"
+                                class="py-3 px-4 rounded-xl text-sm font-medium transition-all bg-[#1C1C22] text-[#73DACA] shadow-sm border border-[#2D2D35]"
                                 onclick="setType('ingreso')"
                             >
-                                Venta / Ingreso
+                                Ingreso
                             </button>
                             <button
                                 type="button"
                                 id="btnGasto"
-                                class="py-3 px-4 rounded-xl text-sm font-medium transition-all text-[#A8929E] hover:text-[#5D4A55]"
+                                class="py-3 px-4 rounded-xl text-sm font-medium transition-all text-[#8B8B99] hover:text-[#E2E2E5]"
                                 onclick="setType('gasto')"
                             >
-                                Gasto / Pedido
+                                Gasto
                             </button>
                         </div>
 
                         <!-- Descripción -->
                         <div>
-                            <label class="block text-sm text-[#A8929E] mb-2 ml-1">Descripción</label>
+                            <label class="block text-sm text-[#8B8B99] mb-2 ml-1">Descripción</label>
                             <input
                                 type="text"
                                 id="descriptionInput"
                                 required
                                 placeholder="Ej. Venta de labiales"
-                                class="w-full bg-[#FFF5F8] border-none outline-none rounded-2xl px-4 py-4 focus:ring-2 focus:ring-[#BCA0DC] focus:bg-white transition-all text-[#5D4A55] placeholder-[#D8C6CE]"
+                                class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-4 focus:border-[#9D7CD8] focus:ring-1 focus:ring-[#9D7CD8] transition-all text-[#E2E2E5] placeholder-[#5A5A66]"
                             />
                         </div>
 
@@ -144,7 +151,7 @@
                         <div class="grid grid-cols-2 gap-4">
                             <!-- Precio Unitario -->
                             <div>
-                                <label class="block text-sm text-[#A8929E] mb-2 ml-1">Precio c/u ($)</label>
+                                <label class="block text-sm text-[#8B8B99] mb-2 ml-1">Precio c/u ($)</label>
                                 <input
                                     type="number"
                                     id="priceInput"
@@ -152,20 +159,20 @@
                                     min="0"
                                     required
                                     placeholder="0.00"
-                                    class="w-full bg-[#FFF5F8] border-none outline-none rounded-2xl px-4 py-4 focus:ring-2 focus:ring-[#BCA0DC] focus:bg-white transition-all text-[#5D4A55] placeholder-[#D8C6CE]"
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-4 focus:border-[#9D7CD8] focus:ring-1 focus:ring-[#9D7CD8] transition-all text-[#E2E2E5] placeholder-[#5A5A66]"
                                 />
                             </div>
                             
                             <!-- Cantidad -->
                             <div>
-                                <label class="block text-sm text-[#A8929E] mb-2 ml-1">Cantidad</label>
+                                <label class="block text-sm text-[#8B8B99] mb-2 ml-1">Cantidad</label>
                                 <input
                                     type="number"
                                     id="quantityInput"
                                     min="1"
                                     value="1"
                                     required
-                                    class="w-full bg-[#FFF5F8] border-none outline-none rounded-2xl px-4 py-4 focus:ring-2 focus:ring-[#BCA0DC] focus:bg-white transition-all text-[#5D4A55] placeholder-[#D8C6CE]"
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-4 focus:border-[#9D7CD8] focus:ring-1 focus:ring-[#9D7CD8] transition-all text-[#E2E2E5] placeholder-[#5A5A66]"
                                 />
                             </div>
                         </div>
@@ -173,15 +180,29 @@
                         <!-- Botón Guardar con Previsualización del Total -->
                         <div class="pt-2">
                             <div class="flex justify-between items-center mb-2 px-2">
-                                <span class="text-xs text-[#A8929E] font-medium uppercase tracking-wider">Total a registrar</span>
-                                <span id="totalPreview" class="text-sm font-medium text-[#BCA0DC]">$0.00</span>
+                                <span class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider">Total</span>
+                                <span id="totalPreview" class="text-sm font-medium text-[#9D7CD8]">$0.00</span>
                             </div>
-                            <button
-                                type="submit"
-                                class="w-full bg-[#BCA0DC] hover:bg-[#A888CD] text-white py-4 rounded-2xl font-medium transition-colors flex items-center justify-center gap-2"
-                            >
-                                <i data-lucide="plus" class="w-5 h-5"></i> Agregar
-                            </button>
+                            
+                            <div class="flex gap-3">
+                                <button
+                                    type="button"
+                                    id="cancelEditBtn"
+                                    onclick="cancelEdit()"
+                                    class="hidden flex-1 bg-[#2D2D35] hover:bg-[#3D3D48] text-white py-4 rounded-2xl font-medium transition-colors flex items-center justify-center gap-2"
+                                >
+                                    <i data-lucide="x" class="w-5 h-5"></i> Cancelar
+                                </button>
+                                
+                                <button
+                                    type="submit"
+                                    id="submitBtn"
+                                    class="flex-[2] bg-[#9D7CD8] hover:bg-[#8B68C8] text-white py-4 rounded-2xl font-medium transition-colors flex items-center justify-center gap-2"
+                                >
+                                    <i id="submitBtnIcon" data-lucide="plus" class="w-5 h-5"></i> 
+                                    <span id="submitBtnText">Agregar</span>
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -189,11 +210,11 @@
 
             <!-- Lista de Transacciones -->
             <div class="lg:col-span-2">
-                <div class="bg-white p-6 rounded-[2rem] shadow-[0_4px_20px_rgb(0,0,0,0.02)] border border-[#FCEEF2] h-full">
-                    <h2 class="text-xl font-medium mb-6 text-[#4A3B43]">Historial</h2>
+                <div class="bg-[#1C1C22] p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#2D2D35] h-full">
+                    <h2 class="text-xl font-medium mb-6 text-white">Historial</h2>
                     
                     <!-- Contenedor dinámico del historial -->
-                    <div id="historyContainer" class="space-y-3 overflow-y-auto max-h-[500px] pr-2 custom-scrollbar">
+                    <div id="historyContainer" class="space-y-3 overflow-y-auto max-h-[600px] pr-2 custom-scrollbar">
                         <!-- El contenido se inyectará aquí desde JavaScript -->
                     </div>
                 </div>
@@ -203,25 +224,25 @@
     </div>
 
     <!-- Modal Instrucciones PWA -->
-    <div id="installModal" class="hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4 fade-in">
-        <div class="bg-white rounded-[2rem] p-6 max-w-sm w-full shadow-[0_10px_40px_rgb(0,0,0,0.1)] border border-[#FCEEF2]">
-            <h3 class="text-xl font-medium mb-4 text-[#4A3B43] flex items-center gap-2">
-                <i data-lucide="smartphone" class="w-5 h-5 text-[#BCA0DC]"></i> Instalar App
+    <div id="installModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 fade-in">
+        <div class="bg-[#1C1C22] rounded-[2rem] p-6 max-w-sm w-full shadow-[0_10px_40px_rgb(0,0,0,0.5)] border border-[#2D2D35]">
+            <h3 class="text-xl font-medium mb-4 text-white flex items-center gap-2">
+                <i data-lucide="smartphone" class="w-5 h-5 text-[#9D7CD8]"></i> Instalar App
             </h3>
-            <p class="text-sm text-[#5D4A55] mb-4 leading-relaxed">
+            <p class="text-sm text-[#8B8B99] mb-4 leading-relaxed">
                 Para instalar la app en tu celular sigue estos pasos según tu dispositivo:
             </p>
             <div class="space-y-4 mb-6">
-                <div class="bg-[#FFF5F8] p-4 rounded-2xl">
-                    <p class="font-medium text-[#F28C9C] text-sm mb-1">🍎 iOS (iPhone)</p>
-                    <p class="text-xs text-[#A8929E]">Toca el ícono de "Compartir" en Safari (el cuadrito con la flecha hacia arriba) y selecciona <strong>"Agregar a inicio"</strong>.</p>
+                <div class="bg-[#0F0F13] border border-[#2D2D35] p-4 rounded-2xl">
+                    <p class="font-medium text-[#F7768E] text-sm mb-1">🍎 iOS (iPhone)</p>
+                    <p class="text-xs text-[#8B8B99]">Toca el ícono de "Compartir" en Safari (el cuadrito con la flecha) y selecciona <strong>"Agregar a inicio"</strong>.</p>
                 </div>
-                <div class="bg-[#E8F8F5] p-4 rounded-2xl">
-                    <p class="font-medium text-[#5FC5A8] text-sm mb-1">🤖 Android</p>
-                    <p class="text-xs text-[#A8929E]">Toca los 3 puntos del menú de tu navegador y selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</p>
+                <div class="bg-[#0F0F13] border border-[#2D2D35] p-4 rounded-2xl">
+                    <p class="font-medium text-[#73DACA] text-sm mb-1">🤖 Android</p>
+                    <p class="text-xs text-[#8B8B99]">Toca los 3 puntos del menú de tu navegador y selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</p>
                 </div>
             </div>
-            <button onclick="document.getElementById('installModal').classList.add('hidden')" class="w-full bg-[#BCA0DC] hover:bg-[#A888CD] text-white py-3 rounded-xl font-medium transition-colors">
+            <button onclick="document.getElementById('installModal').classList.add('hidden')" class="w-full bg-[#9D7CD8] hover:bg-[#8B68C8] text-white py-3 rounded-xl font-medium transition-colors">
                 Entendido
             </button>
         </div>
@@ -235,6 +256,7 @@
         // Estado inicial
         let transactions = JSON.parse(localStorage.getItem('aesthetic_finances_html')) || [];
         let currentType = 'ingreso';
+        let editingId = null; // Variable para saber si estamos editando
 
         // Referencias a elementos del DOM
         const historyContainer = document.getElementById('historyContainer');
@@ -246,6 +268,12 @@
         const quantityInput = document.getElementById('quantityInput');
         const totalPreview = document.getElementById('totalPreview');
         
+        // Elementos de edición
+        const formTitle = document.getElementById('formTitle');
+        const submitBtnText = document.getElementById('submitBtnText');
+        const submitBtnIcon = document.getElementById('submitBtnIcon');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        
         // Elementos de resumen y PWA
         const totalIncomeEl = document.getElementById('totalIncome');
         const totalExpenseEl = document.getElementById('totalExpense');
@@ -253,7 +281,7 @@
         const installBtn = document.getElementById('installBtn');
         const installModal = document.getElementById('installModal');
 
-        // Formateador de dinero (Moneda por defecto USD)
+        // Formateador de dinero
         const formatMoney = (value) => {
             return new Intl.NumberFormat('es-SV', {
                 style: 'currency',
@@ -261,23 +289,23 @@
             }).format(value);
         };
 
-        // Configuración PWA (Manifiesto dinámico)
+        // Configuración PWA (Manifiesto dinámico adaptado a modo oscuro)
         const setupPWA = () => {
             const manifest = {
-                name: "Mis Finanzas Aesthetic",
+                name: "Mis Finanzas Dark",
                 short_name: "Finanzas",
                 start_url: window.location.href,
                 display: "standalone",
-                background_color: "#FFF5F8",
-                theme_color: "#BCA0DC",
+                background_color: "#0F0F13",
+                theme_color: "#0F0F13",
                 icons: [
                     {
-                        src: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='192' height='192' style='background-color:%23FFF5F8'%3E%3Cpath fill='%23BCA0DC' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E",
+                        src: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='192' height='192' style='background-color:%230F0F13'%3E%3Cpath fill='%239D7CD8' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E",
                         sizes: "192x192",
                         type: "image/svg+xml"
                     },
                     {
-                        src: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='512' height='512' style='background-color:%23FFF5F8'%3E%3Cpath fill='%23BCA0DC' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E",
+                        src: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='512' height='512' style='background-color:%230F0F13'%3E%3Cpath fill='%239D7CD8' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E",
                         sizes: "512x512",
                         type: "image/svg+xml"
                     }
@@ -288,17 +316,15 @@
         };
         setupPWA();
 
-        // Lógica de Instalación PWA
+        // Lógica PWA
         let deferredPrompt;
         if (!window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
             installBtn.classList.remove('hidden');
         }
-
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
         });
-
         installBtn.addEventListener('click', async () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
@@ -312,7 +338,7 @@
             }
         });
 
-        // Actualizar previsualización del total en el formulario
+        // Actualizar previsualización del total
         const updatePreview = () => {
             const price = parseFloat(priceInput.value) || 0;
             const quantity = parseInt(quantityInput.value) || 1;
@@ -322,23 +348,70 @@
         priceInput.addEventListener('input', updatePreview);
         quantityInput.addEventListener('input', updatePreview);
 
-        // Cambiar entre tipo de registro (Ingreso / Gasto)
+        // Cambiar entre tipo de registro (estilos oscuros)
         window.setType = (type) => {
             currentType = type;
             
             if (type === 'ingreso') {
-                btnIngreso.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all bg-white text-[#5FC5A8] shadow-sm";
-                btnGasto.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all text-[#A8929E] hover:text-[#5D4A55]";
+                btnIngreso.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all bg-[#1C1C22] text-[#73DACA] shadow-sm border border-[#2D2D35]";
+                btnGasto.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all text-[#8B8B99] hover:text-[#E2E2E5] border border-transparent";
                 descriptionInput.placeholder = "Ej. Venta de labiales";
             } else {
-                btnGasto.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all bg-white text-[#F28C9C] shadow-sm";
-                btnIngreso.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all text-[#A8929E] hover:text-[#5D4A55]";
+                btnGasto.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all bg-[#1C1C22] text-[#F7768E] shadow-sm border border-[#2D2D35]";
+                btnIngreso.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all text-[#8B8B99] hover:text-[#E2E2E5] border border-transparent";
                 descriptionInput.placeholder = "Ej. Pedido a proveedor";
             }
         };
 
+        // Preparar para Editar
+        window.editTransaction = (id) => {
+            const transaction = transactions.find(t => t.id === id);
+            if (!transaction) return;
+
+            // Llenar formulario con los datos a editar
+            editingId = id;
+            descriptionInput.value = transaction.description;
+            priceInput.value = transaction.price;
+            quantityInput.value = transaction.quantity || 1;
+            setType(transaction.type);
+            updatePreview();
+
+            // Cambiar textos y botones del modo edición
+            formTitle.innerText = "Editar Registro";
+            submitBtnText.innerText = "Guardar";
+            submitBtnIcon.setAttribute("data-lucide", "save");
+            cancelEditBtn.classList.remove('hidden');
+            
+            // Re-renderizar iconos
+            lucide.createIcons();
+
+            // Hacer scroll hacia el formulario suavemente (útil en móviles)
+            document.querySelector('.lg\\:col-span-1').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        // Cancelar Edición
+        window.cancelEdit = () => {
+            editingId = null;
+            descriptionInput.value = '';
+            priceInput.value = '';
+            quantityInput.value = '1';
+            setType('ingreso');
+            updatePreview();
+
+            // Restaurar diseño original del formulario
+            formTitle.innerText = "Nuevo Registro";
+            submitBtnText.innerText = "Agregar";
+            submitBtnIcon.setAttribute("data-lucide", "plus");
+            cancelEditBtn.classList.add('hidden');
+            
+            lucide.createIcons();
+        };
+
         // Eliminar Transacción
         window.deleteTransaction = (id) => {
+            // Si estamos editando el elemento que se va a borrar, cancelamos la edición
+            if (editingId === id) cancelEdit();
+            
             transactions = transactions.filter(t => t.id !== id);
             saveAndRender();
         };
@@ -348,7 +421,7 @@
             return 'id-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36);
         };
 
-        // Manejar el envío del formulario
+        // Manejar el envío del formulario (Crear o Editar)
         transactionForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -360,12 +433,11 @@
 
             const totalAmount = price * quantity;
 
-            const newTransaction = {
-                id: crypto.randomUUID ? crypto.randomUUID() : generateID(),
+            const transactionData = {
                 description,
                 price,
                 quantity,
-                amount: totalAmount, // Guardamos el total para los cálculos de resumen
+                amount: totalAmount,
                 type: currentType,
                 date: new Date().toLocaleDateString('es-ES', { 
                     year: 'numeric', month: 'short', day: 'numeric',
@@ -373,14 +445,26 @@
                 })
             };
 
-            // Añadir al inicio de la lista
-            transactions.unshift(newTransaction);
-            
-            // Limpiar formulario
-            descriptionInput.value = '';
-            priceInput.value = '';
-            quantityInput.value = '1';
-            updatePreview(); // Reiniciar la vista previa del total
+            if (editingId) {
+                // Modo Edición: Actualizar el elemento existente
+                transactions = transactions.map(t => {
+                    if (t.id === editingId) {
+                        return { ...t, ...transactionData }; // Mantiene el ID original pero actualiza datos
+                    }
+                    return t;
+                });
+                cancelEdit(); // Salir del modo edición
+            } else {
+                // Modo Creación: Añadir nuevo
+                transactionData.id = crypto.randomUUID ? crypto.randomUUID() : generateID();
+                transactions.unshift(transactionData);
+                
+                // Limpiar formulario manual (sin llamar cancelEdit para no rehacer los íconos si no es necesario)
+                descriptionInput.value = '';
+                priceInput.value = '';
+                quantityInput.value = '1';
+                updatePreview();
+            }
             
             saveAndRender();
         });
@@ -413,33 +497,37 @@
             if (transactions.length === 0) {
                 historyContainer.innerHTML = `
                     <div class="flex flex-col items-center justify-center h-48 text-center space-y-4 fade-in">
-                        <div class="w-16 h-16 bg-[#FFF5F8] rounded-full flex items-center justify-center">
-                            <i data-lucide="package" class="w-8 h-8 text-[#EBC2CB]" stroke-width="1.5"></i>
+                        <div class="w-16 h-16 bg-[#0F0F13] border border-[#2D2D35] rounded-full flex items-center justify-center">
+                            <i data-lucide="package" class="w-8 h-8 text-[#5A5A66]" stroke-width="1.5"></i>
                         </div>
-                        <p class="text-[#A8929E] font-light">Aún no tienes registros.<br/>Comienza agregando tu primer pedido o venta.</p>
+                        <p class="text-[#8B8B99] font-light">Aún no tienes registros.<br/>Comienza agregando tu primer pedido o venta.</p>
                     </div>
                 `;
             } else {
                 historyContainer.innerHTML = transactions.map((t) => {
                     const isIngreso = t.type === 'ingreso';
                     
-                    const bgClass = isIngreso ? 'bg-[#E8F8F5]' : 'bg-[#FFEBF0]';
-                    const textClass = isIngreso ? 'text-[#5FC5A8]' : 'text-[#F28C9C]';
+                    const bgClass = isIngreso ? 'bg-[#73DACA]/10' : 'bg-[#F7768E]/10';
+                    const textClass = isIngreso ? 'text-[#73DACA]' : 'text-[#F7768E]';
                     const iconName = isIngreso ? 'trending-up' : 'trending-down';
                     const sign = isIngreso ? '+' : '-';
                     
-                    // Asegurar compatibilidad hacia atrás con registros que no tenían cantidad
-                    const qtyString = t.quantity && t.quantity > 1 ? `<span class="text-xs text-[#A8929E] bg-[#FFF5F8] px-2 py-0.5 rounded-lg ml-2 font-medium">x${t.quantity}</span>` : '';
+                    const qtyString = t.quantity && t.quantity > 1 ? `<span class="text-xs text-[#8B8B99] bg-[#0F0F13] border border-[#2D2D35] px-2 py-0.5 rounded-lg ml-2 font-medium">x${t.quantity}</span>` : '';
+                    
+                    // Resaltar visualmente si el elemento se está editando
+                    const isEditing = t.id === editingId;
+                    const borderClass = isEditing ? 'border-[#9D7CD8]' : 'border-transparent hover:border-[#2D2D35]';
+                    const bgHoverClass = isEditing ? 'bg-[#9D7CD8]/5' : 'hover:bg-[#25252D]';
 
                     return `
-                        <div class="group flex items-center justify-between p-4 hover:bg-[#FFF5F8] rounded-2xl transition-colors border border-transparent hover:border-[#FCEEF2] fade-in">
+                        <div class="group flex items-center justify-between p-4 ${bgHoverClass} rounded-2xl transition-all border ${borderClass} fade-in">
                             <div class="flex items-center gap-4">
                                 <div class="p-3 rounded-2xl flex-shrink-0 ${bgClass} ${textClass}">
                                     <i data-lucide="${iconName}" class="w-5 h-5"></i>
                                 </div>
                                 <div>
-                                    <p class="font-medium text-[#4A3B43] flex items-center">${t.description} ${qtyString}</p>
-                                    <p class="text-xs text-[#A8929E] mt-0.5">${t.date}</p>
+                                    <p class="font-medium text-white flex items-center">${t.description} ${qtyString}</p>
+                                    <p class="text-xs text-[#8B8B99] mt-0.5">${t.date}</p>
                                 </div>
                             </div>
                             
@@ -447,13 +535,24 @@
                                 <span class="font-medium ${textClass}">
                                     ${sign}${formatMoney(t.amount)}
                                 </span>
-                                <button 
-                                    onclick="deleteTransaction('${t.id}')"
-                                    class="opacity-0 group-hover:opacity-100 p-2 text-[#EBC2CB] hover:text-[#F28C9C] transition-all rounded-xl hover:bg-white"
-                                    title="Eliminar"
-                                >
-                                    <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                </button>
+                                
+                                <!-- Botones de acción (Editar y Eliminar) -->
+                                <div class="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button 
+                                        onclick="editTransaction('${t.id}')"
+                                        class="p-2 text-[#8B8B99] hover:text-[#9D7CD8] transition-all rounded-xl hover:bg-[#1C1C22]"
+                                        title="Editar"
+                                    >
+                                        <i data-lucide="pencil" class="w-4 h-4"></i>
+                                    </button>
+                                    <button 
+                                        onclick="deleteTransaction('${t.id}')"
+                                        class="p-2 text-[#8B8B99] hover:text-[#F7768E] transition-all rounded-xl hover:bg-[#1C1C22]"
+                                        title="Eliminar"
+                                    >
+                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     `;
