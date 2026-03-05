@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Finanzas Aesthetic (Dark)</title>
+    <title>Mis Finanzas</title>
     
     <!-- Tailwind CSS para los estilos -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -11,560 +11,465 @@
     <!-- Lucide Icons para los iconos -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Configuración PWA y Meta Tags -->
+    <!-- Configuración PWA -->
     <meta name="theme-color" content="#0F0F13">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Finanzas">
-    <meta name="mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='192' height='192' style='background-color:%230F0F13'%3E%3Cpath fill='%239D7CD8' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E">
     <link rel="manifest" id="pwa-manifest">
 
-    <!-- Estilos personalizados para la barra de desplazamiento -->
     <style>
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #3D3D48;
-            border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background-color: #5A5A66;
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #3D3D48; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #5A5A66; }
         
-        /* Animaciones suaves para las tarjetas */
-        .fade-in {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Ocultar flechas en inputs de número */
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+            -webkit-appearance: none; margin: 0;
         }
     </style>
 </head>
-<body class="min-h-screen bg-[#0F0F13] text-[#E2E2E5] font-sans selection:bg-[#9D7CD8]/30">
-    <div class="max-w-4xl mx-auto p-5 md:p-8 pt-10">
+<body class="min-h-screen bg-[#0F0F13] text-[#E2E2E5] font-sans selection:bg-[#9D7CD8]/30 overflow-x-hidden">
+    <div class="max-w-[1400px] mx-auto p-4 md:p-6 pt-8">
         
         <!-- Header -->
-        <header class="mb-10 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
-            <div>
-                <h1 class="text-3xl md:text-4xl font-light tracking-tight flex items-center justify-center md:justify-start gap-2">
+        <header class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="text-center md:text-left">
+                <h1 class="text-3xl font-light tracking-tight flex items-center justify-center md:justify-start gap-2 text-white">
                     Mis Finanzas <i data-lucide="sparkles" class="w-6 h-6 text-[#9D7CD8]" stroke-width="1.5"></i>
                 </h1>
-                <p class="text-[#8B8B99] mt-2 font-light">Control de pedidos y ganancias</p>
+                <p class="text-[#8B8B99] mt-1 text-sm font-light">Panel de control de pedidos y ganancias</p>
             </div>
-            <button id="installBtn" class="hidden flex items-center justify-center gap-2 text-sm bg-[#1C1C22] text-[#9D7CD8] px-5 py-2.5 rounded-2xl shadow-[0_4px_15px_rgb(0,0,0,0.2)] border border-[#2D2D35] hover:bg-[#25252D] transition-colors font-medium">
+            <button id="installBtn" class="hidden flex items-center justify-center gap-2 text-sm bg-[#1C1C22] text-[#9D7CD8] px-5 py-2.5 rounded-2xl shadow-lg border border-[#2D2D35] hover:bg-[#25252D] transition-colors font-medium">
                 <i data-lucide="download" class="w-4 h-4"></i> Instalar App
             </button>
         </header>
 
-        <!-- Tarjetas de Resumen -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-            <!-- Ingresos -->
-            <div class="bg-[#1C1C22] p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#2D2D35] flex flex-col justify-between hover:border-[#3D3D48] transition-colors">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="text-[#8B8B99] font-medium text-sm tracking-wide uppercase">Ingresos Totales</span>
-                    <div class="p-3 bg-[#73DACA]/10 rounded-2xl">
-                        <i data-lucide="trending-up" class="w-5 h-5 text-[#73DACA]"></i>
-                    </div>
-                </div>
-                <p id="totalIncome" class="text-3xl font-light text-white">$0.00</p>
-            </div>
-
-            <!-- Gastos -->
-            <div class="bg-[#1C1C22] p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#2D2D35] flex flex-col justify-between hover:border-[#3D3D48] transition-colors">
-                <div class="flex justify-between items-start mb-4">
-                    <span class="text-[#8B8B99] font-medium text-sm tracking-wide uppercase">Gastos en Pedidos</span>
-                    <div class="p-3 bg-[#F7768E]/10 rounded-2xl">
-                        <i data-lucide="trending-down" class="w-5 h-5 text-[#F7768E]"></i>
-                    </div>
-                </div>
-                <p id="totalExpense" class="text-3xl font-light text-white">$0.00</p>
-            </div>
-
-            <!-- Ganancia -->
-            <div class="bg-[#9D7CD8] text-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgba(157,124,216,0.25)] flex flex-col justify-between relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full blur-2xl"></div>
-                <div class="flex justify-between items-start mb-4 relative z-10">
-                    <span class="text-white/90 font-medium text-sm tracking-wide uppercase">Ganancia Neta</span>
-                    <div class="p-3 bg-white/20 rounded-2xl backdrop-blur-sm border border-white/10">
-                        <i data-lucide="wallet" class="w-5 h-5 text-white"></i>
-                    </div>
-                </div>
-                <p id="netProfit" class="text-3xl font-light relative z-10">$0.00</p>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Grid de 3 Columnas -->
+        <!-- En móvil: Balance primero (order-1), luego Ventas (order-2), luego Gastos (order-3) -->
+        <!-- En PC: Ventas (order-1), Gastos (order-2), Balance (order-3) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <!-- Formulario -->
-            <div class="lg:col-span-1">
-                <div class="bg-[#1C1C22] p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#2D2D35] sticky top-8">
-                    <h2 id="formTitle" class="text-xl font-medium mb-6 text-white">Nuevo Registro</h2>
-                    <form id="transactionForm" class="space-y-5">
-                        
-                        <!-- Selector de Tipo -->
-                        <div class="grid grid-cols-2 gap-3 p-1 bg-[#0F0F13] rounded-2xl border border-[#2D2D35]">
-                            <button
-                                type="button"
-                                id="btnIngreso"
-                                class="py-3 px-4 rounded-xl text-sm font-medium transition-all bg-[#1C1C22] text-[#73DACA] shadow-sm border border-[#2D2D35]"
-                                onclick="setType('ingreso')"
-                            >
-                                Ingreso
-                            </button>
-                            <button
-                                type="button"
-                                id="btnGasto"
-                                class="py-3 px-4 rounded-xl text-sm font-medium transition-all text-[#8B8B99] hover:text-[#E2E2E5]"
-                                onclick="setType('gasto')"
-                            >
-                                Gasto
-                            </button>
-                        </div>
-
-                        <!-- Descripción -->
+            <!-- ================= COLUMNA 1: VENTAS (Verde Menta) ================= -->
+            <div class="flex flex-col gap-6 order-2 lg:order-1">
+                
+                <!-- Formulario Ventas -->
+                <div class="bg-[#1C1C22] p-5 md:p-6 rounded-[2rem] shadow-lg border border-[#2D2D35] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#73DACA]/5 rounded-bl-full -z-10"></div>
+                    <h2 class="text-lg font-medium mb-5 flex items-center gap-2 text-[#73DACA]">
+                        <div class="p-2 bg-[#73DACA]/10 rounded-xl"><i data-lucide="trending-up" class="w-4 h-4"></i></div>
+                        Registrar Venta
+                    </h2>
+                    
+                    <form id="incomeForm" class="space-y-4">
                         <div>
-                            <label class="block text-sm text-[#8B8B99] mb-2 ml-1">Descripción</label>
-                            <input
-                                type="text"
-                                id="descriptionInput"
-                                required
-                                placeholder="Ej. Venta de labiales"
-                                class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-4 focus:border-[#9D7CD8] focus:ring-1 focus:ring-[#9D7CD8] transition-all text-[#E2E2E5] placeholder-[#5A5A66]"
-                            />
+                            <input type="text" id="incDesc" required placeholder="Ej. Venta de labial mágico"
+                                class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#73DACA] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
                         </div>
-
-                        <!-- Precio y Cantidad en 2 columnas -->
-                        <div class="grid grid-cols-2 gap-4">
-                            <!-- Precio Unitario -->
+                        <div class="grid grid-cols-2 gap-3">
                             <div>
-                                <label class="block text-sm text-[#8B8B99] mb-2 ml-1">Precio c/u ($)</label>
-                                <input
-                                    type="number"
-                                    id="priceInput"
-                                    step="0.01"
-                                    min="0"
-                                    required
-                                    placeholder="0.00"
-                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-4 focus:border-[#9D7CD8] focus:ring-1 focus:ring-[#9D7CD8] transition-all text-[#E2E2E5] placeholder-[#5A5A66]"
-                                />
+                                <label class="block text-xs text-[#8B8B99] mb-1.5 ml-1">Precio c/u ($)</label>
+                                <input type="number" id="incPrice" step="0.01" min="0" required placeholder="0.00"
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#73DACA] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
                             </div>
-                            
-                            <!-- Cantidad -->
                             <div>
-                                <label class="block text-sm text-[#8B8B99] mb-2 ml-1">Cantidad</label>
-                                <input
-                                    type="number"
-                                    id="quantityInput"
-                                    min="1"
-                                    value="1"
-                                    required
-                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-4 focus:border-[#9D7CD8] focus:ring-1 focus:ring-[#9D7CD8] transition-all text-[#E2E2E5] placeholder-[#5A5A66]"
-                                />
+                                <label class="block text-xs text-[#8B8B99] mb-1.5 ml-1">Cantidad</label>
+                                <input type="number" id="incQty" min="1" value="1" required
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#73DACA] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
                             </div>
                         </div>
-
-                        <!-- Botón Guardar con Previsualización del Total -->
                         <div class="pt-2">
-                            <div class="flex justify-between items-center mb-2 px-2">
+                            <div class="flex justify-between items-center mb-3 px-1">
                                 <span class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider">Total</span>
-                                <span id="totalPreview" class="text-sm font-medium text-[#9D7CD8]">$0.00</span>
+                                <span id="incPreview" class="text-sm font-medium text-[#73DACA]">$0.00</span>
                             </div>
-                            
-                            <div class="flex gap-3">
-                                <button
-                                    type="button"
-                                    id="cancelEditBtn"
-                                    onclick="cancelEdit()"
-                                    class="hidden flex-1 bg-[#2D2D35] hover:bg-[#3D3D48] text-white py-4 rounded-2xl font-medium transition-colors flex items-center justify-center gap-2"
-                                >
-                                    <i data-lucide="x" class="w-5 h-5"></i> Cancelar
+                            <div class="flex gap-2">
+                                <button type="button" id="incCancelBtn" onclick="cancelIncomeEdit()" class="hidden flex-1 bg-[#2D2D35] hover:bg-[#3D3D48] text-white py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                                    <i data-lucide="x" class="w-4 h-4"></i>
                                 </button>
-                                
-                                <button
-                                    type="submit"
-                                    id="submitBtn"
-                                    class="flex-[2] bg-[#9D7CD8] hover:bg-[#8B68C8] text-white py-4 rounded-2xl font-medium transition-colors flex items-center justify-center gap-2"
-                                >
-                                    <i id="submitBtnIcon" data-lucide="plus" class="w-5 h-5"></i> 
-                                    <span id="submitBtnText">Agregar</span>
+                                <button type="submit" id="incSubmitBtn" class="flex-[3] bg-[#73DACA]/10 hover:bg-[#73DACA]/20 text-[#73DACA] border border-[#73DACA]/20 py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                                    <i id="incSubmitIcon" data-lucide="plus" class="w-4 h-4"></i> 
+                                    <span id="incSubmitText">Añadir Venta</span>
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
-            </div>
 
-            <!-- Lista de Transacciones -->
-            <div class="lg:col-span-2">
-                <div class="bg-[#1C1C22] p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-[#2D2D35] h-full">
-                    <h2 class="text-xl font-medium mb-6 text-white">Historial</h2>
-                    
-                    <!-- Contenedor dinámico del historial -->
-                    <div id="historyContainer" class="space-y-3 overflow-y-auto max-h-[600px] pr-2 custom-scrollbar">
-                        <!-- El contenido se inyectará aquí desde JavaScript -->
+                <!-- Historial Ventas -->
+                <div class="bg-[#1C1C22] p-5 rounded-[2rem] shadow-lg border border-[#2D2D35] flex-1">
+                    <h3 class="text-sm font-medium text-[#8B8B99] mb-4 uppercase tracking-wider px-1">Historial de Ventas</h3>
+                    <div id="incomeHistory" class="space-y-2 overflow-y-auto max-h-[400px] pr-1 custom-scrollbar">
+                        <!-- Inyectado por JS -->
                     </div>
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    <!-- Modal Instrucciones PWA -->
-    <div id="installModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 fade-in">
-        <div class="bg-[#1C1C22] rounded-[2rem] p-6 max-w-sm w-full shadow-[0_10px_40px_rgb(0,0,0,0.5)] border border-[#2D2D35]">
-            <h3 class="text-xl font-medium mb-4 text-white flex items-center gap-2">
-                <i data-lucide="smartphone" class="w-5 h-5 text-[#9D7CD8]"></i> Instalar App
-            </h3>
-            <p class="text-sm text-[#8B8B99] mb-4 leading-relaxed">
-                Para instalar la app en tu celular sigue estos pasos según tu dispositivo:
-            </p>
-            <div class="space-y-4 mb-6">
-                <div class="bg-[#0F0F13] border border-[#2D2D35] p-4 rounded-2xl">
-                    <p class="font-medium text-[#F7768E] text-sm mb-1">🍎 iOS (iPhone)</p>
-                    <p class="text-xs text-[#8B8B99]">Toca el ícono de "Compartir" en Safari (el cuadrito con la flecha) y selecciona <strong>"Agregar a inicio"</strong>.</p>
+            <!-- ================= COLUMNA 2: GASTOS (Rosa Coral) ================= -->
+            <div class="flex flex-col gap-6 order-3 lg:order-2">
+                
+                <!-- Formulario Gastos -->
+                <div class="bg-[#1C1C22] p-5 md:p-6 rounded-[2rem] shadow-lg border border-[#2D2D35] relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-[#F7768E]/5 rounded-bl-full -z-10"></div>
+                    <h2 class="text-lg font-medium mb-5 flex items-center gap-2 text-[#F7768E]">
+                        <div class="p-2 bg-[#F7768E]/10 rounded-xl"><i data-lucide="shopping-bag" class="w-4 h-4"></i></div>
+                        Registrar Gasto
+                    </h2>
+                    
+                    <form id="expenseForm" class="space-y-4">
+                        <div>
+                            <input type="text" id="expDesc" required placeholder="Ej. Pedido a proveedor"
+                                class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#F7768E] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
+                        </div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs text-[#8B8B99] mb-1.5 ml-1">Costo c/u ($)</label>
+                                <input type="number" id="expPrice" step="0.01" min="0" required placeholder="0.00"
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#F7768E] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-[#8B8B99] mb-1.5 ml-1">Cantidad</label>
+                                <input type="number" id="expQty" min="1" value="1" required
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#F7768E] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
+                            </div>
+                        </div>
+                        <div class="pt-2">
+                            <div class="flex justify-between items-center mb-3 px-1">
+                                <span class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider">Total</span>
+                                <span id="expPreview" class="text-sm font-medium text-[#F7768E]">$0.00</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <button type="button" id="expCancelBtn" onclick="cancelExpenseEdit()" class="hidden flex-1 bg-[#2D2D35] hover:bg-[#3D3D48] text-white py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                                    <i data-lucide="x" class="w-4 h-4"></i>
+                                </button>
+                                <button type="submit" id="expSubmitBtn" class="flex-[3] bg-[#F7768E]/10 hover:bg-[#F7768E]/20 text-[#F7768E] border border-[#F7768E]/20 py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                                    <i id="expSubmitIcon" data-lucide="minus" class="w-4 h-4"></i> 
+                                    <span id="expSubmitText">Añadir Gasto</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="bg-[#0F0F13] border border-[#2D2D35] p-4 rounded-2xl">
-                    <p class="font-medium text-[#73DACA] text-sm mb-1">🤖 Android</p>
-                    <p class="text-xs text-[#8B8B99]">Toca los 3 puntos del menú de tu navegador y selecciona <strong>"Instalar aplicación"</strong> o <strong>"Agregar a la pantalla principal"</strong>.</p>
+
+                <!-- Historial Gastos -->
+                <div class="bg-[#1C1C22] p-5 rounded-[2rem] shadow-lg border border-[#2D2D35] flex-1">
+                    <h3 class="text-sm font-medium text-[#8B8B99] mb-4 uppercase tracking-wider px-1">Historial de Gastos</h3>
+                    <div id="expenseHistory" class="space-y-2 overflow-y-auto max-h-[400px] pr-1 custom-scrollbar">
+                        <!-- Inyectado por JS -->
+                    </div>
                 </div>
             </div>
-            <button onclick="document.getElementById('installModal').classList.add('hidden')" class="w-full bg-[#9D7CD8] hover:bg-[#8B68C8] text-white py-3 rounded-xl font-medium transition-colors">
-                Entendido
-            </button>
+
+            <!-- ================= COLUMNA 3: BALANCE (Lila / Morado) ================= -->
+            <div class="order-1 lg:order-3">
+                <div class="lg:sticky lg:top-8 space-y-5">
+                    
+                    <!-- Tarjeta Principal: Ganancia o Inversión -->
+                    <div id="mainBalanceCard" class="bg-[#9D7CD8] text-white p-7 md:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(157,124,216,0.2)] relative overflow-hidden transition-colors duration-500">
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-white opacity-10 rounded-full blur-3xl"></div>
+                        <div class="flex justify-between items-start mb-6 relative z-10">
+                            <div>
+                                <span id="balanceLabel" class="text-white/90 font-medium text-xs tracking-widest uppercase">Ganancia Neta</span>
+                                <p id="balanceStatus" class="text-[10px] text-white/70 mt-1">Tus ventas superan tus gastos</p>
+                            </div>
+                            <div class="p-3 bg-white/20 rounded-2xl backdrop-blur-md shadow-inner border border-white/10">
+                                <i id="balanceIcon" data-lucide="wallet" class="w-6 h-6 text-white"></i>
+                            </div>
+                        </div>
+                        <p id="netProfit" class="text-4xl md:text-5xl font-light tracking-tight relative z-10">$0.00</p>
+                    </div>
+
+                    <!-- Resumen Totales -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-[#1C1C22] p-5 rounded-3xl border border-[#2D2D35]">
+                            <p class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider mb-2">Ingresos</p>
+                            <p id="totalIncome" class="text-xl font-medium text-white">$0.00</p>
+                        </div>
+                        <div class="bg-[#1C1C22] p-5 rounded-3xl border border-[#2D2D35]">
+                            <p class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider mb-2">Gastos</p>
+                            <p id="totalExpense" class="text-xl font-medium text-white">$0.00</p>
+                        </div>
+                    </div>
+
+                    <!-- Gráfico Decorativo (Estético) -->
+                    <div class="bg-[#1C1C22] p-6 rounded-[2rem] border border-[#2D2D35] flex items-center justify-center gap-3">
+                        <div class="w-full bg-[#0F0F13] h-3 rounded-full overflow-hidden flex">
+                            <div id="incomeBar" class="bg-[#73DACA] h-full transition-all duration-1000" style="width: 50%"></div>
+                            <div id="expenseBar" class="bg-[#F7768E] h-full transition-all duration-1000" style="width: 50%"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
 
     <!-- Script de Lógica JavaScript -->
     <script>
-        // Inicializar Iconos
         lucide.createIcons();
 
         // Estado inicial
-        let transactions = JSON.parse(localStorage.getItem('aesthetic_finances_html')) || [];
-        let currentType = 'ingreso';
-        let editingId = null; // Variable para saber si estamos editando
+        let transactions = JSON.parse(localStorage.getItem('aesthetic_finances_v2')) || [];
+        let editingIncomeId = null;
+        let editingExpenseId = null;
 
-        // Referencias a elementos del DOM
-        const historyContainer = document.getElementById('historyContainer');
-        const transactionForm = document.getElementById('transactionForm');
-        const btnIngreso = document.getElementById('btnIngreso');
-        const btnGasto = document.getElementById('btnGasto');
-        const descriptionInput = document.getElementById('descriptionInput');
-        const priceInput = document.getElementById('priceInput');
-        const quantityInput = document.getElementById('quantityInput');
-        const totalPreview = document.getElementById('totalPreview');
-        
-        // Elementos de edición
-        const formTitle = document.getElementById('formTitle');
-        const submitBtnText = document.getElementById('submitBtnText');
-        const submitBtnIcon = document.getElementById('submitBtnIcon');
-        const cancelEditBtn = document.getElementById('cancelEditBtn');
-        
-        // Elementos de resumen y PWA
+        // Referencias Ventas
+        const incForm = document.getElementById('incomeForm');
+        const incDesc = document.getElementById('incDesc');
+        const incPrice = document.getElementById('incPrice');
+        const incQty = document.getElementById('incQty');
+        const incPreview = document.getElementById('incPreview');
+        const incHistory = document.getElementById('incomeHistory');
+        const incSubmitText = document.getElementById('incSubmitText');
+        const incSubmitIcon = document.getElementById('incSubmitIcon');
+        const incCancelBtn = document.getElementById('incCancelBtn');
+
+        // Referencias Gastos
+        const expForm = document.getElementById('expenseForm');
+        const expDesc = document.getElementById('expDesc');
+        const expPrice = document.getElementById('expPrice');
+        const expQty = document.getElementById('expQty');
+        const expPreview = document.getElementById('expPreview');
+        const expHistory = document.getElementById('expenseHistory');
+        const expSubmitText = document.getElementById('expSubmitText');
+        const expSubmitIcon = document.getElementById('expSubmitIcon');
+        const expCancelBtn = document.getElementById('expCancelBtn');
+
+        // Referencias Balance
         const totalIncomeEl = document.getElementById('totalIncome');
         const totalExpenseEl = document.getElementById('totalExpense');
         const netProfitEl = document.getElementById('netProfit');
-        const installBtn = document.getElementById('installBtn');
-        const installModal = document.getElementById('installModal');
+        const mainBalanceCard = document.getElementById('mainBalanceCard');
+        const balanceLabel = document.getElementById('balanceLabel');
+        const balanceStatus = document.getElementById('balanceStatus');
+        const balanceIcon = document.getElementById('balanceIcon');
+        const incomeBar = document.getElementById('incomeBar');
+        const expenseBar = document.getElementById('expenseBar');
 
-        // Formateador de dinero
-        const formatMoney = (value) => {
-            return new Intl.NumberFormat('es-SV', {
-                style: 'currency',
-                currency: 'USD'
-            }).format(value);
+        // Formateador
+        const formatMoney = (value) => new Intl.NumberFormat('es-SV', { style: 'currency', currency: 'USD' }).format(value);
+
+        // Previsualizaciones en vivo
+        const updateIncPreview = () => {
+            const val = (parseFloat(incPrice.value) || 0) * (parseInt(incQty.value) || 1);
+            incPreview.innerText = formatMoney(val);
+        };
+        const updateExpPreview = () => {
+            const val = (parseFloat(expPrice.value) || 0) * (parseInt(expQty.value) || 1);
+            expPreview.innerText = formatMoney(val);
         };
 
-        // Configuración PWA (Manifiesto dinámico adaptado a modo oscuro)
+        incPrice.addEventListener('input', updateIncPreview);
+        incQty.addEventListener('input', updateIncPreview);
+        expPrice.addEventListener('input', updateExpPreview);
+        expQty.addEventListener('input', updateExpPreview);
+
+        // Cancelar Ediciones
+        window.cancelIncomeEdit = () => {
+            editingIncomeId = null;
+            incForm.reset();
+            incQty.value = '1';
+            updateIncPreview();
+            incSubmitText.innerText = "Añadir Venta";
+            incSubmitIcon.setAttribute("data-lucide", "plus");
+            incCancelBtn.classList.add('hidden');
+            lucide.createIcons();
+        };
+
+        window.cancelExpenseEdit = () => {
+            editingExpenseId = null;
+            expForm.reset();
+            expQty.value = '1';
+            updateExpPreview();
+            expSubmitText.innerText = "Añadir Gasto";
+            expSubmitIcon.setAttribute("data-lucide", "minus");
+            expCancelBtn.classList.add('hidden');
+            lucide.createIcons();
+        };
+
+        // Editar Transacción
+        window.editTransaction = (id, type) => {
+            const t = transactions.find(x => x.id === id);
+            if (!t) return;
+
+            if (type === 'ingreso') {
+                cancelExpenseEdit(); // Cerrar edición del otro lado por si acaso
+                editingIncomeId = id;
+                incDesc.value = t.description;
+                incPrice.value = t.price;
+                incQty.value = t.quantity;
+                updateIncPreview();
+                incSubmitText.innerText = "Guardar";
+                incSubmitIcon.setAttribute("data-lucide", "save");
+                incCancelBtn.classList.remove('hidden');
+                document.querySelector('.order-2.lg\\:order-1').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                cancelIncomeEdit();
+                editingExpenseId = id;
+                expDesc.value = t.description;
+                expPrice.value = t.price;
+                expQty.value = t.quantity;
+                updateExpPreview();
+                expSubmitText.innerText = "Guardar";
+                expSubmitIcon.setAttribute("data-lucide", "save");
+                expCancelBtn.classList.remove('hidden');
+                document.querySelector('.order-3.lg\\:order-2').scrollIntoView({ behavior: 'smooth' });
+            }
+            lucide.createIcons();
+        };
+
+        // Eliminar Transacción
+        window.deleteTransaction = (id, type) => {
+            if (editingIncomeId === id) cancelIncomeEdit();
+            if (editingExpenseId === id) cancelExpenseEdit();
+            transactions = transactions.filter(t => t.id !== id);
+            saveAndRender();
+        };
+
+        const generateID = () => 'id-' + Math.random().toString(36).substr(2, 9);
+
+        // Handlers de envío
+        const handleFormSubmit = (e, type) => {
+            e.preventDefault();
+            const isInc = type === 'ingreso';
+            const desc = isInc ? incDesc.value.trim() : expDesc.value.trim();
+            const price = parseFloat(isInc ? incPrice.value : expPrice.value);
+            const qty = parseInt(isInc ? incQty.value : expQty.value) || 1;
+
+            if (!desc || isNaN(price)) return;
+
+            const tData = {
+                description: desc, price, quantity: qty, amount: price * qty, type,
+                date: new Date().toLocaleDateString('es-ES', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+            };
+
+            const editingId = isInc ? editingIncomeId : editingExpenseId;
+
+            if (editingId) {
+                transactions = transactions.map(t => t.id === editingId ? { ...t, ...tData } : t);
+                isInc ? cancelIncomeEdit() : cancelExpenseEdit();
+            } else {
+                tData.id = crypto.randomUUID ? crypto.randomUUID() : generateID();
+                transactions.unshift(tData);
+                isInc ? cancelIncomeEdit() : cancelExpenseEdit(); // Funciona como reset
+            }
+            saveAndRender();
+        };
+
+        incForm.addEventListener('submit', (e) => handleFormSubmit(e, 'ingreso'));
+        expForm.addEventListener('submit', (e) => handleFormSubmit(e, 'gasto'));
+
+        // Guardar y Renderizar
+        const saveAndRender = () => {
+            localStorage.setItem('aesthetic_finances_v2', JSON.stringify(transactions));
+            renderUI();
+        };
+
+        const createHTMLItem = (t, editingId) => {
+            const isInc = t.type === 'ingreso';
+            const bgHover = isInc ? 'hover:bg-[#73DACA]/5' : 'hover:bg-[#F7768E]/5';
+            const borderCls = t.id === editingId 
+                ? (isInc ? 'border-[#73DACA] bg-[#73DACA]/5' : 'border-[#F7768E] bg-[#F7768E]/5')
+                : 'border-[#2D2D35] hover:border-[#3D3D48] bg-[#0F0F13]';
+            
+            const qtyStr = t.quantity > 1 ? `<span class="text-[10px] text-[#8B8B99] bg-[#1C1C22] px-1.5 py-0.5 rounded ml-2">x${t.quantity}</span>` : '';
+            const amountColor = isInc ? 'text-[#73DACA]' : 'text-[#F7768E]';
+
+            return `
+                <div class="group flex items-center justify-between p-3.5 rounded-2xl transition-all border ${borderCls} ${bgHover} fade-in">
+                    <div class="truncate pr-2">
+                        <p class="font-medium text-sm text-white flex items-center truncate">${t.description} ${qtyStr}</p>
+                        <p class="text-[10px] text-[#5A5A66] mt-0.5">${t.date}</p>
+                    </div>
+                    <div class="flex items-center gap-3 flex-shrink-0">
+                        <span class="font-medium text-sm ${amountColor}">${formatMoney(t.amount)}</span>
+                        <div class="flex items-center md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                            <button onclick="editTransaction('${t.id}', '${t.type}')" class="p-1.5 text-[#5A5A66] hover:text-white transition-colors" title="Editar">
+                                <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button onclick="deleteTransaction('${t.id}', '${t.type}')" class="p-1.5 text-[#5A5A66] hover:text-[#F7768E] transition-colors" title="Eliminar">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        };
+
+        const renderUI = () => {
+            const incomes = transactions.filter(t => t.type === 'ingreso');
+            const expenses = transactions.filter(t => t.type === 'gasto');
+            
+            const totalInc = incomes.reduce((sum, t) => sum + t.amount, 0);
+            const totalExp = expenses.reduce((sum, t) => sum + t.amount, 0);
+            const netProfit = totalInc - totalExp;
+
+            // Actualizar Totales
+            totalIncomeEl.innerText = formatMoney(totalInc);
+            totalExpenseEl.innerText = formatMoney(totalExp);
+            
+            // Lógica de Tarjeta Balance Principal
+            if (netProfit >= 0) {
+                // Estado: Ganancia
+                mainBalanceCard.className = "bg-[#9D7CD8] text-white p-7 md:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(157,124,216,0.2)] relative overflow-hidden transition-all duration-500";
+                balanceLabel.innerText = "Ganancia Neta";
+                balanceStatus.innerText = "Tus ventas superan tus gastos";
+                netProfitEl.innerText = formatMoney(netProfit);
+                balanceIcon.setAttribute("data-lucide", "wallet");
+            } else {
+                // Estado: Inversión / Pérdida (Color más rojizo suave)
+                mainBalanceCard.className = "bg-[#D96B7B] text-white p-7 md:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(217,107,123,0.2)] relative overflow-hidden transition-all duration-500";
+                balanceLabel.innerText = "Inversión / Pedidos";
+                balanceStatus.innerText = "Falta recuperar con ventas";
+                netProfitEl.innerText = formatMoney(Math.abs(netProfit));
+                balanceIcon.setAttribute("data-lucide", "package-open");
+            }
+
+            // Actualizar barras de proporción
+            const totalSum = totalInc + totalExp || 1; // evitar division por 0
+            incomeBar.style.width = `${(totalInc / totalSum) * 100}%`;
+            expenseBar.style.width = `${(totalExp / totalSum) * 100}%`;
+
+            // Listas
+            incHistory.innerHTML = incomes.length ? incomes.map(t => createHTMLItem(t, editingIncomeId)).join('') : 
+                `<div class="text-center py-8"><i data-lucide="receipt" class="w-6 h-6 text-[#2D2D35] mx-auto mb-2"></i><p class="text-xs text-[#5A5A66]">No hay ventas aún</p></div>`;
+            
+            expHistory.innerHTML = expenses.length ? expenses.map(t => createHTMLItem(t, editingExpenseId)).join('') : 
+                `<div class="text-center py-8"><i data-lucide="shopping-cart" class="w-6 h-6 text-[#2D2D35] mx-auto mb-2"></i><p class="text-xs text-[#5A5A66]">No hay gastos aún</p></div>`;
+
+            lucide.createIcons();
+        };
+
+        renderUI();
+
+        // PWA Setup (Simplificado para el botón en la cabecera)
         const setupPWA = () => {
             const manifest = {
-                name: "Mis Finanzas Dark",
-                short_name: "Finanzas",
-                start_url: window.location.href,
-                display: "standalone",
-                background_color: "#0F0F13",
-                theme_color: "#0F0F13",
-                icons: [
-                    {
-                        src: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='192' height='192' style='background-color:%230F0F13'%3E%3Cpath fill='%239D7CD8' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E",
-                        sizes: "192x192",
-                        type: "image/svg+xml"
-                    },
-                    {
-                        src: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='512' height='512' style='background-color:%230F0F13'%3E%3Cpath fill='%239D7CD8' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E",
-                        sizes: "512x512",
-                        type: "image/svg+xml"
-                    }
-                ]
+                name: "Finanzas Dashboard", short_name: "Finanzas", start_url: window.location.href, display: "standalone",
+                background_color: "#0F0F13", theme_color: "#0F0F13",
+                icons: [{ src: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='192' height='192' style='background-color:%230F0F13'%3E%3Cpath fill='%239D7CD8' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml" }]
             };
             const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/manifest+json'});
             document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
         };
         setupPWA();
-
-        // Lógica PWA
+        
+        const installBtn = document.getElementById('installBtn');
         let deferredPrompt;
-        if (!window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) {
-            installBtn.classList.remove('hidden');
-        }
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-        });
+        if (!window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) installBtn.classList.remove('hidden');
+        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
         installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    installBtn.classList.add('hidden');
-                }
-                deferredPrompt = null;
-            } else {
-                installModal.classList.remove('hidden');
-            }
+            if (deferredPrompt) { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') installBtn.classList.add('hidden'); deferredPrompt = null; }
+            else { alert("Para instalar: \n\n📱 En iPhone: Toca 'Compartir' en Safari y luego 'Agregar a Inicio'.\n🤖 En Android: Toca el menú (3 puntos) y selecciona 'Instalar aplicación'."); }
         });
-
-        // Actualizar previsualización del total
-        const updatePreview = () => {
-            const price = parseFloat(priceInput.value) || 0;
-            const quantity = parseInt(quantityInput.value) || 1;
-            totalPreview.innerText = formatMoney(price * quantity);
-        };
-
-        priceInput.addEventListener('input', updatePreview);
-        quantityInput.addEventListener('input', updatePreview);
-
-        // Cambiar entre tipo de registro (estilos oscuros)
-        window.setType = (type) => {
-            currentType = type;
-            
-            if (type === 'ingreso') {
-                btnIngreso.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all bg-[#1C1C22] text-[#73DACA] shadow-sm border border-[#2D2D35]";
-                btnGasto.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all text-[#8B8B99] hover:text-[#E2E2E5] border border-transparent";
-                descriptionInput.placeholder = "Ej. Venta de labiales";
-            } else {
-                btnGasto.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all bg-[#1C1C22] text-[#F7768E] shadow-sm border border-[#2D2D35]";
-                btnIngreso.className = "py-3 px-4 rounded-xl text-sm font-medium transition-all text-[#8B8B99] hover:text-[#E2E2E5] border border-transparent";
-                descriptionInput.placeholder = "Ej. Pedido a proveedor";
-            }
-        };
-
-        // Preparar para Editar
-        window.editTransaction = (id) => {
-            const transaction = transactions.find(t => t.id === id);
-            if (!transaction) return;
-
-            // Llenar formulario con los datos a editar
-            editingId = id;
-            descriptionInput.value = transaction.description;
-            priceInput.value = transaction.price;
-            quantityInput.value = transaction.quantity || 1;
-            setType(transaction.type);
-            updatePreview();
-
-            // Cambiar textos y botones del modo edición
-            formTitle.innerText = "Editar Registro";
-            submitBtnText.innerText = "Guardar";
-            submitBtnIcon.setAttribute("data-lucide", "save");
-            cancelEditBtn.classList.remove('hidden');
-            
-            // Re-renderizar iconos
-            lucide.createIcons();
-
-            // Hacer scroll hacia el formulario suavemente (útil en móviles)
-            document.querySelector('.lg\\:col-span-1').scrollIntoView({ behavior: 'smooth' });
-        };
-
-        // Cancelar Edición
-        window.cancelEdit = () => {
-            editingId = null;
-            descriptionInput.value = '';
-            priceInput.value = '';
-            quantityInput.value = '1';
-            setType('ingreso');
-            updatePreview();
-
-            // Restaurar diseño original del formulario
-            formTitle.innerText = "Nuevo Registro";
-            submitBtnText.innerText = "Agregar";
-            submitBtnIcon.setAttribute("data-lucide", "plus");
-            cancelEditBtn.classList.add('hidden');
-            
-            lucide.createIcons();
-        };
-
-        // Eliminar Transacción
-        window.deleteTransaction = (id) => {
-            // Si estamos editando el elemento que se va a borrar, cancelamos la edición
-            if (editingId === id) cancelEdit();
-            
-            transactions = transactions.filter(t => t.id !== id);
-            saveAndRender();
-        };
-
-        // Generar un ID único
-        const generateID = () => {
-            return 'id-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now().toString(36);
-        };
-
-        // Manejar el envío del formulario (Crear o Editar)
-        transactionForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const description = descriptionInput.value.trim();
-            const price = parseFloat(priceInput.value);
-            const quantity = parseInt(quantityInput.value) || 1;
-
-            if (!description || isNaN(price)) return;
-
-            const totalAmount = price * quantity;
-
-            const transactionData = {
-                description,
-                price,
-                quantity,
-                amount: totalAmount,
-                type: currentType,
-                date: new Date().toLocaleDateString('es-ES', { 
-                    year: 'numeric', month: 'short', day: 'numeric',
-                    hour: '2-digit', minute: '2-digit'
-                })
-            };
-
-            if (editingId) {
-                // Modo Edición: Actualizar el elemento existente
-                transactions = transactions.map(t => {
-                    if (t.id === editingId) {
-                        return { ...t, ...transactionData }; // Mantiene el ID original pero actualiza datos
-                    }
-                    return t;
-                });
-                cancelEdit(); // Salir del modo edición
-            } else {
-                // Modo Creación: Añadir nuevo
-                transactionData.id = crypto.randomUUID ? crypto.randomUUID() : generateID();
-                transactions.unshift(transactionData);
-                
-                // Limpiar formulario manual (sin llamar cancelEdit para no rehacer los íconos si no es necesario)
-                descriptionInput.value = '';
-                priceInput.value = '';
-                quantityInput.value = '1';
-                updatePreview();
-            }
-            
-            saveAndRender();
-        });
-
-        // Guardar en localStorage y actualizar la interfaz
-        const saveAndRender = () => {
-            localStorage.setItem('aesthetic_finances_html', JSON.stringify(transactions));
-            renderUI();
-        };
-
-        // Renderizar la Interfaz
-        const renderUI = () => {
-            // 1. Calcular Totales
-            const totalIncome = transactions
-                .filter(t => t.type === 'ingreso')
-                .reduce((acc, curr) => acc + curr.amount, 0);
-                
-            const totalExpense = transactions
-                .filter(t => t.type === 'gasto')
-                .reduce((acc, curr) => acc + curr.amount, 0);
-                
-            const netProfit = totalIncome - totalExpense;
-
-            // 2. Actualizar textos de resumen
-            totalIncomeEl.innerText = formatMoney(totalIncome);
-            totalExpenseEl.innerText = formatMoney(totalExpense);
-            netProfitEl.innerText = formatMoney(netProfit);
-
-            // 3. Renderizar el Historial
-            if (transactions.length === 0) {
-                historyContainer.innerHTML = `
-                    <div class="flex flex-col items-center justify-center h-48 text-center space-y-4 fade-in">
-                        <div class="w-16 h-16 bg-[#0F0F13] border border-[#2D2D35] rounded-full flex items-center justify-center">
-                            <i data-lucide="package" class="w-8 h-8 text-[#5A5A66]" stroke-width="1.5"></i>
-                        </div>
-                        <p class="text-[#8B8B99] font-light">Aún no tienes registros.<br/>Comienza agregando tu primer pedido o venta.</p>
-                    </div>
-                `;
-            } else {
-                historyContainer.innerHTML = transactions.map((t) => {
-                    const isIngreso = t.type === 'ingreso';
-                    
-                    const bgClass = isIngreso ? 'bg-[#73DACA]/10' : 'bg-[#F7768E]/10';
-                    const textClass = isIngreso ? 'text-[#73DACA]' : 'text-[#F7768E]';
-                    const iconName = isIngreso ? 'trending-up' : 'trending-down';
-                    const sign = isIngreso ? '+' : '-';
-                    
-                    const qtyString = t.quantity && t.quantity > 1 ? `<span class="text-xs text-[#8B8B99] bg-[#0F0F13] border border-[#2D2D35] px-2 py-0.5 rounded-lg ml-2 font-medium">x${t.quantity}</span>` : '';
-                    
-                    // Resaltar visualmente si el elemento se está editando
-                    const isEditing = t.id === editingId;
-                    const borderClass = isEditing ? 'border-[#9D7CD8]' : 'border-transparent hover:border-[#2D2D35]';
-                    const bgHoverClass = isEditing ? 'bg-[#9D7CD8]/5' : 'hover:bg-[#25252D]';
-
-                    return `
-                        <div class="group flex items-center justify-between p-4 ${bgHoverClass} rounded-2xl transition-all border ${borderClass} fade-in">
-                            <div class="flex items-center gap-4">
-                                <div class="p-3 rounded-2xl flex-shrink-0 ${bgClass} ${textClass}">
-                                    <i data-lucide="${iconName}" class="w-5 h-5"></i>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-white flex items-center">${t.description} ${qtyString}</p>
-                                    <p class="text-xs text-[#8B8B99] mt-0.5">${t.date}</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-center gap-4">
-                                <span class="font-medium ${textClass}">
-                                    ${sign}${formatMoney(t.amount)}
-                                </span>
-                                
-                                <!-- Botones de acción (Editar y Eliminar) -->
-                                <div class="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <button 
-                                        onclick="editTransaction('${t.id}')"
-                                        class="p-2 text-[#8B8B99] hover:text-[#9D7CD8] transition-all rounded-xl hover:bg-[#1C1C22]"
-                                        title="Editar"
-                                    >
-                                        <i data-lucide="pencil" class="w-4 h-4"></i>
-                                    </button>
-                                    <button 
-                                        onclick="deleteTransaction('${t.id}')"
-                                        class="p-2 text-[#8B8B99] hover:text-[#F7768E] transition-all rounded-xl hover:bg-[#1C1C22]"
-                                        title="Eliminar"
-                                    >
-                                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
-
-            // Re-renderizar iconos de Lucide
-            lucide.createIcons();
-        };
-
-        // Renderizado inicial al cargar la página
-        renderUI();
 
     </script>
 </body>
