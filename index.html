@@ -1,101 +1,183 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mis Finanzas</title>
-    
+
     <!-- Tailwind CSS para los estilos -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Lucide Icons para los iconos -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Configuración PWA -->
-    <meta name="theme-color" content="#0F0F13">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Finanzas">
-    <link rel="manifest" id="pwa-manifest">
+    <meta name="theme-color" content="#0F0F13" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Finanzas" />
+    <link rel="manifest" id="pwa-manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%239D7CD8' width='180' height='180'/></svg>" />
 
     <style>
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #3D3D48; border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #5A5A66; }
-        
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #3d3d48;
+            border-radius: 10px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #5a5a66;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .zoom-in {
+            animation: zoomIn 0.2s ease-out forwards;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                visibility: hidden;
+                opacity: 0;
+            }
+
+            to {
+                visibility: visible;
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                visibility: hidden;
+                opacity: 0;
+            }
+
+            to {
+                visibility: visible;
+                opacity: 1;
+            }
         }
 
         input[type="number"]::-webkit-inner-spin-button,
         input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none; margin: 0;
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Notificación Toast */
+        #toast {
+            transition:
+                transform 0.3s ease,
+                opacity 0.3s ease;
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
         }
     </style>
 </head>
+
 <body class="min-h-screen bg-[#0F0F13] text-[#E2E2E5] font-sans selection:bg-[#9D7CD8]/30 overflow-x-hidden">
+    <!-- Toast de Notificaciones -->
+    <div id="toast"
+        class="fixed top-4 left-1/2 -translate-x-1/2 z-[100] bg-[#1C1C22] border border-[#2D2D35] text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 pointer-events-none">
+        <i id="toastIcon" data-lucide="alert-circle" class="w-5 h-5 text-[#F7768E]"></i>
+        <span id="toastMsg" class="text-sm font-medium">Mensaje</span>
+    </div>
+
     <div class="max-w-[1400px] mx-auto p-4 md:p-6 pt-8">
-        
         <!-- Header -->
         <header class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="text-center md:text-left">
-                <h1 class="text-3xl font-light tracking-tight flex items-center justify-center md:justify-start gap-2 text-white">
-                    Mis Finanzas <i data-lucide="sparkles" class="w-6 h-6 text-[#9D7CD8]" stroke-width="1.5"></i>
+                <h1
+                    class="text-3xl font-light tracking-tight flex items-center justify-center md:justify-start gap-2 text-white">
+                    Mis Finanzas
+                    <i data-lucide="sparkles" class="w-6 h-6 text-[#9D7CD8]" stroke-width="1.5"></i>
                 </h1>
-                <p class="text-[#8B8B99] mt-1 text-sm font-light">Panel de control de pedidos y ganancias</p>
+                <p class="text-[#8B8B99] mt-1 text-sm font-light">
+                    Panel de control con registro fotográfico
+                </p>
             </div>
-            <button id="installBtn" class="hidden flex items-center justify-center gap-2 text-sm bg-[#1C1C22] text-[#9D7CD8] px-5 py-2.5 rounded-2xl shadow-lg border border-[#2D2D35] hover:bg-[#25252D] transition-colors font-medium">
-                <i data-lucide="download" class="w-4 h-4"></i> Instalar App
-            </button>
         </header>
 
         <!-- Grid de 3 Columnas -->
-        <!-- En móvil: Balance primero (order-1), luego Ventas (order-2), luego Gastos (order-3) -->
-        <!-- En PC: Ventas (order-1), Gastos (order-2), Balance (order-3) -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
             <!-- ================= COLUMNA 1: VENTAS (Verde Menta) ================= -->
             <div class="flex flex-col gap-6 order-2 lg:order-1">
-                
                 <!-- Formulario Ventas -->
-                <div class="bg-[#1C1C22] p-5 md:p-6 rounded-[2rem] shadow-lg border border-[#2D2D35] relative overflow-hidden">
+                <div
+                    class="bg-[#1C1C22] p-5 md:p-6 rounded-[2rem] shadow-lg border border-[#2D2D35] relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-[#73DACA]/5 rounded-bl-full -z-10"></div>
                     <h2 class="text-lg font-medium mb-5 flex items-center gap-2 text-[#73DACA]">
-                        <div class="p-2 bg-[#73DACA]/10 rounded-xl"><i data-lucide="trending-up" class="w-4 h-4"></i></div>
+                        <div class="p-2 bg-[#73DACA]/10 rounded-xl">
+                            <i data-lucide="trending-up" class="w-4 h-4"></i>
+                        </div>
                         Registrar Venta
                     </h2>
-                    
+
                     <form id="incomeForm" class="space-y-4">
                         <div>
                             <input type="text" id="incDesc" required placeholder="Ej. Venta de labial mágico"
-                                class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#73DACA] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
+                                class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#73DACA] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]" />
                         </div>
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-xs text-[#8B8B99] mb-1.5 ml-1">Precio c/u ($)</label>
                                 <input type="number" id="incPrice" step="0.01" min="0" required placeholder="0.00"
-                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#73DACA] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#73DACA] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]" />
                             </div>
                             <div>
                                 <label class="block text-xs text-[#8B8B99] mb-1.5 ml-1">Cantidad</label>
-                                <input type="number" id="incQty" min="1" value="1" required
-                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#73DACA] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
+                                <input type="number" id="incQty" min="1" value="1" required placeholder="1"
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#73DACA] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]" />
                             </div>
                         </div>
+
+                        <!-- Input Foto Ventas -->
+                        <div class="flex items-center gap-3">
+                            <label
+                                class="cursor-pointer flex items-center justify-center gap-2 bg-[#0F0F13] border border-[#2D2D35] hover:border-[#73DACA] text-[#8B8B99] hover:text-[#73DACA] px-4 py-2.5 rounded-xl text-xs font-medium transition-all w-max">
+                                <i data-lucide="camera" class="w-4 h-4"></i> Añadir Foto
+                                <input type="file" accept="image/*" class="hidden" id="incPhotoInput" />
+                            </label>
+                            <div id="incPhotoContainer" class="hidden relative fade-in">
+                                <img id="incPhotoPreview" src="" alt="Foto de venta"
+                                    class="w-10 h-10 rounded-lg object-cover border border-[#2D2D35]" />
+                                <button type="button" onclick="removeIncPhoto()" title="Eliminar foto"
+                                    class="absolute -top-1.5 -right-1.5 bg-[#F7768E] hover:bg-[#D96B7B] text-white rounded-full p-0.5 transition-colors shadow-lg">
+                                    <i data-lucide="x" class="w-3 h-3"></i>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="pt-2">
                             <div class="flex justify-between items-center mb-3 px-1">
                                 <span class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider">Total</span>
                                 <span id="incPreview" class="text-sm font-medium text-[#73DACA]">$0.00</span>
                             </div>
                             <div class="flex gap-2">
-                                <button type="button" id="incCancelBtn" onclick="cancelIncomeEdit()" class="hidden flex-1 bg-[#2D2D35] hover:bg-[#3D3D48] text-white py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                                <button type="button" id="incCancelBtn" onclick="cancelIncomeEdit()" title="Cancelar edición"
+                                    class="hidden flex-1 bg-[#2D2D35] hover:bg-[#3D3D48] text-white py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
                                     <i data-lucide="x" class="w-4 h-4"></i>
                                 </button>
-                                <button type="submit" id="incSubmitBtn" class="flex-[3] bg-[#73DACA]/10 hover:bg-[#73DACA]/20 text-[#73DACA] border border-[#73DACA]/20 py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
-                                    <i id="incSubmitIcon" data-lucide="plus" class="w-4 h-4"></i> 
+                                <button type="submit" id="incSubmitBtn"
+                                    class="flex-[3] bg-[#73DACA]/10 hover:bg-[#73DACA]/20 text-[#73DACA] border border-[#73DACA]/20 py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                                    <i id="incSubmitIcon" data-lucide="plus" class="w-4 h-4"></i>
                                     <span id="incSubmitText">Añadir Venta</span>
                                 </button>
                             </div>
@@ -105,7 +187,9 @@
 
                 <!-- Historial Ventas -->
                 <div class="bg-[#1C1C22] p-5 rounded-[2rem] shadow-lg border border-[#2D2D35] flex-1">
-                    <h3 class="text-sm font-medium text-[#8B8B99] mb-4 uppercase tracking-wider px-1">Historial de Ventas</h3>
+                    <h3 class="text-sm font-medium text-[#8B8B99] mb-4 uppercase tracking-wider px-1">
+                        Historial de Ventas
+                    </h3>
                     <div id="incomeHistory" class="space-y-2 overflow-y-auto max-h-[400px] pr-1 custom-scrollbar">
                         <!-- Inyectado por JS -->
                     </div>
@@ -114,43 +198,65 @@
 
             <!-- ================= COLUMNA 2: GASTOS (Rosa Coral) ================= -->
             <div class="flex flex-col gap-6 order-3 lg:order-2">
-                
                 <!-- Formulario Gastos -->
-                <div class="bg-[#1C1C22] p-5 md:p-6 rounded-[2rem] shadow-lg border border-[#2D2D35] relative overflow-hidden">
+                <div
+                    class="bg-[#1C1C22] p-5 md:p-6 rounded-[2rem] shadow-lg border border-[#2D2D35] relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-[#F7768E]/5 rounded-bl-full -z-10"></div>
                     <h2 class="text-lg font-medium mb-5 flex items-center gap-2 text-[#F7768E]">
-                        <div class="p-2 bg-[#F7768E]/10 rounded-xl"><i data-lucide="shopping-bag" class="w-4 h-4"></i></div>
+                        <div class="p-2 bg-[#F7768E]/10 rounded-xl">
+                            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                        </div>
                         Registrar Gasto
                     </h2>
-                    
+
                     <form id="expenseForm" class="space-y-4">
                         <div>
                             <input type="text" id="expDesc" required placeholder="Ej. Pedido a proveedor"
-                                class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#F7768E] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
+                                class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#F7768E] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]" />
                         </div>
                         <div class="grid grid-cols-2 gap-3">
                             <div>
                                 <label class="block text-xs text-[#8B8B99] mb-1.5 ml-1">Costo c/u ($)</label>
                                 <input type="number" id="expPrice" step="0.01" min="0" required placeholder="0.00"
-                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#F7768E] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#F7768E] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]" />
                             </div>
                             <div>
                                 <label class="block text-xs text-[#8B8B99] mb-1.5 ml-1">Cantidad</label>
-                                <input type="number" id="expQty" min="1" value="1" required
-                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#F7768E] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]"/>
+                                <input type="number" id="expQty" min="1" value="1" required placeholder="1"
+                                    class="w-full bg-[#0F0F13] border border-[#2D2D35] outline-none rounded-2xl px-4 py-3.5 focus:border-[#F7768E] transition-all text-sm text-[#E2E2E5] placeholder-[#5A5A66]" />
                             </div>
                         </div>
+
+                        <!-- Input Foto Gastos -->
+                        <div class="flex items-center gap-3">
+                            <label
+                                class="cursor-pointer flex items-center justify-center gap-2 bg-[#0F0F13] border border-[#2D2D35] hover:border-[#F7768E] text-[#8B8B99] hover:text-[#F7768E] px-4 py-2.5 rounded-xl text-xs font-medium transition-all w-max">
+                                <i data-lucide="camera" class="w-4 h-4"></i> Añadir Foto
+                                <input type="file" accept="image/*" class="hidden" id="expPhotoInput" />
+                            </label>
+                            <div id="expPhotoContainer" class="hidden relative fade-in">
+                                <img id="expPhotoPreview" src="" alt="Foto de gasto"
+                                    class="w-10 h-10 rounded-lg object-cover border border-[#2D2D35]" />
+                                <button type="button" onclick="removeExpPhoto()" title="Eliminar foto"
+                                    class="absolute -top-1.5 -right-1.5 bg-[#F7768E] hover:bg-[#D96B7B] text-white rounded-full p-0.5 transition-colors shadow-lg">
+                                    <i data-lucide="x" class="w-3 h-3"></i>
+                                </button>
+                            </div>
+                        </div>
+
                         <div class="pt-2">
                             <div class="flex justify-between items-center mb-3 px-1">
                                 <span class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider">Total</span>
                                 <span id="expPreview" class="text-sm font-medium text-[#F7768E]">$0.00</span>
                             </div>
                             <div class="flex gap-2">
-                                <button type="button" id="expCancelBtn" onclick="cancelExpenseEdit()" class="hidden flex-1 bg-[#2D2D35] hover:bg-[#3D3D48] text-white py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                                <button type="button" id="expCancelBtn" onclick="cancelExpenseEdit()" title="Cancelar edición"
+                                    class="hidden flex-1 bg-[#2D2D35] hover:bg-[#3D3D48] text-white py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
                                     <i data-lucide="x" class="w-4 h-4"></i>
                                 </button>
-                                <button type="submit" id="expSubmitBtn" class="flex-[3] bg-[#F7768E]/10 hover:bg-[#F7768E]/20 text-[#F7768E] border border-[#F7768E]/20 py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
-                                    <i id="expSubmitIcon" data-lucide="minus" class="w-4 h-4"></i> 
+                                <button type="submit" id="expSubmitBtn"
+                                    class="flex-[3] bg-[#F7768E]/10 hover:bg-[#F7768E]/20 text-[#F7768E] border border-[#F7768E]/20 py-3.5 rounded-2xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
+                                    <i id="expSubmitIcon" data-lucide="minus" class="w-4 h-4"></i>
                                     <span id="expSubmitText">Añadir Gasto</span>
                                 </button>
                             </div>
@@ -160,7 +266,9 @@
 
                 <!-- Historial Gastos -->
                 <div class="bg-[#1C1C22] p-5 rounded-[2rem] shadow-lg border border-[#2D2D35] flex-1">
-                    <h3 class="text-sm font-medium text-[#8B8B99] mb-4 uppercase tracking-wider px-1">Historial de Gastos</h3>
+                    <h3 class="text-sm font-medium text-[#8B8B99] mb-4 uppercase tracking-wider px-1">
+                        Historial de Gastos
+                    </h3>
                     <div id="expenseHistory" class="space-y-2 overflow-y-auto max-h-[400px] pr-1 custom-scrollbar">
                         <!-- Inyectado por JS -->
                     </div>
@@ -170,45 +278,74 @@
             <!-- ================= COLUMNA 3: BALANCE (Lila / Morado) ================= -->
             <div class="order-1 lg:order-3">
                 <div class="lg:sticky lg:top-8 space-y-5">
-                    
                     <!-- Tarjeta Principal: Ganancia o Inversión -->
-                    <div id="mainBalanceCard" class="bg-[#9D7CD8] text-white p-7 md:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(157,124,216,0.2)] relative overflow-hidden transition-colors duration-500">
-                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-white opacity-10 rounded-full blur-3xl"></div>
+                    <div id="mainBalanceCard"
+                        class="bg-[#9D7CD8] text-white p-7 md:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(157,124,216,0.2)] relative overflow-hidden transition-colors duration-500">
+                        <div class="absolute -top-10 -right-10 w-40 h-40 bg-white opacity-10 rounded-full blur-3xl">
+                        </div>
                         <div class="flex justify-between items-start mb-6 relative z-10">
                             <div>
-                                <span id="balanceLabel" class="text-white/90 font-medium text-xs tracking-widest uppercase">Ganancia Neta</span>
-                                <p id="balanceStatus" class="text-[10px] text-white/70 mt-1">Tus ventas superan tus gastos</p>
+                                <span id="balanceLabel"
+                                    class="text-white/90 font-medium text-xs tracking-widest uppercase">Ganancia
+                                    Neta</span>
+                                <p id="balanceStatus" class="text-[10px] text-white/70 mt-1">
+                                    Tus ventas superan tus gastos
+                                </p>
                             </div>
-                            <div class="p-3 bg-white/20 rounded-2xl backdrop-blur-md shadow-inner border border-white/10">
+                            <div
+                                class="p-3 bg-white/20 rounded-2xl backdrop-blur-md shadow-inner border border-white/10">
                                 <i id="balanceIcon" data-lucide="wallet" class="w-6 h-6 text-white"></i>
                             </div>
                         </div>
-                        <p id="netProfit" class="text-4xl md:text-5xl font-light tracking-tight relative z-10">$0.00</p>
+                        <p id="netProfit" class="text-4xl md:text-5xl font-light tracking-tight relative z-10">
+                            $0.00
+                        </p>
                     </div>
 
                     <!-- Resumen Totales -->
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-[#1C1C22] p-5 rounded-3xl border border-[#2D2D35]">
-                            <p class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider mb-2">Ingresos</p>
-                            <p id="totalIncome" class="text-xl font-medium text-white">$0.00</p>
+                            <p class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider mb-2">
+                                Ingresos
+                            </p>
+                            <p id="totalIncome" class="text-xl font-medium text-white">
+                                $0.00
+                            </p>
                         </div>
                         <div class="bg-[#1C1C22] p-5 rounded-3xl border border-[#2D2D35]">
-                            <p class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider mb-2">Gastos</p>
-                            <p id="totalExpense" class="text-xl font-medium text-white">$0.00</p>
+                            <p class="text-xs text-[#8B8B99] font-medium uppercase tracking-wider mb-2">
+                                Gastos
+                            </p>
+                            <p id="totalExpense" class="text-xl font-medium text-white">
+                                $0.00
+                            </p>
                         </div>
                     </div>
 
-                    <!-- Gráfico Decorativo (Estético) -->
-                    <div class="bg-[#1C1C22] p-6 rounded-[2rem] border border-[#2D2D35] flex items-center justify-center gap-3">
+                    <!-- Gráfico Decorativo -->
+                    <div
+                        class="bg-[#1C1C22] p-6 rounded-[2rem] border border-[#2D2D35] flex items-center justify-center gap-3">
                         <div class="w-full bg-[#0F0F13] h-3 rounded-full overflow-hidden flex">
-                            <div id="incomeBar" class="bg-[#73DACA] h-full transition-all duration-1000" style="width: 50%"></div>
-                            <div id="expenseBar" class="bg-[#F7768E] h-full transition-all duration-1000" style="width: 50%"></div>
+                            <div id="incomeBar" class="bg-[#73DACA] h-full transition-all duration-1000"></div>
+                            <div id="expenseBar" class="bg-[#F7768E] h-full transition-all duration-1000"></div>
                         </div>
                     </div>
-
                 </div>
             </div>
+        </div>
+    </div>
 
+    <!-- Visor de Imágenes (Modal) -->
+    <div id="imageViewerModal"
+        class="hidden fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4">
+        <button type="button" onclick="closeImageViewer()" title="Cerrar"
+            class="absolute top-6 right-6 p-2 bg-[#1C1C22] border border-[#2D2D35] text-white rounded-full hover:bg-[#2D2D35] transition-colors">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <div class="max-w-3xl w-full max-h-[80vh] flex flex-col items-center">
+            <img id="viewerImage" src="" alt="Imagen ampliada" title="Imagen ampliada"
+                class="max-w-full max-h-[75vh] object-contain rounded-2xl zoom-in shadow-2xl border border-white/10" />
+            <p id="viewerDesc" class="text-white mt-4 font-medium text-center"></p>
         </div>
     </div>
 
@@ -217,100 +354,222 @@
         lucide.createIcons();
 
         // Estado inicial
-        let transactions = JSON.parse(localStorage.getItem('aesthetic_finances_v2')) || [];
+        let transactions =
+            JSON.parse(localStorage.getItem("aesthetic_finances_v3")) || [];
         let editingIncomeId = null;
         let editingExpenseId = null;
 
+        // Variables para guardar las fotos en Base64 comprimidas
+        let currentIncImage = null;
+        let currentExpImage = null;
+
         // Referencias Ventas
-        const incForm = document.getElementById('incomeForm');
-        const incDesc = document.getElementById('incDesc');
-        const incPrice = document.getElementById('incPrice');
-        const incQty = document.getElementById('incQty');
-        const incPreview = document.getElementById('incPreview');
-        const incHistory = document.getElementById('incomeHistory');
-        const incSubmitText = document.getElementById('incSubmitText');
-        const incSubmitIcon = document.getElementById('incSubmitIcon');
-        const incCancelBtn = document.getElementById('incCancelBtn');
+        const incForm = document.getElementById("incomeForm");
+        const incDesc = document.getElementById("incDesc");
+        const incPrice = document.getElementById("incPrice");
+        const incQty = document.getElementById("incQty");
+        const incPreview = document.getElementById("incPreview");
+        const incHistory = document.getElementById("incomeHistory");
+        const incSubmitText = document.getElementById("incSubmitText");
+        const incSubmitIcon = document.getElementById("incSubmitIcon");
+        const incCancelBtn = document.getElementById("incCancelBtn");
+
+        // Referencias Fotos Ventas
+        const incPhotoInput = document.getElementById("incPhotoInput");
+        const incPhotoContainer = document.getElementById("incPhotoContainer");
+        const incPhotoPreview = document.getElementById("incPhotoPreview");
 
         // Referencias Gastos
-        const expForm = document.getElementById('expenseForm');
-        const expDesc = document.getElementById('expDesc');
-        const expPrice = document.getElementById('expPrice');
-        const expQty = document.getElementById('expQty');
-        const expPreview = document.getElementById('expPreview');
-        const expHistory = document.getElementById('expenseHistory');
-        const expSubmitText = document.getElementById('expSubmitText');
-        const expSubmitIcon = document.getElementById('expSubmitIcon');
-        const expCancelBtn = document.getElementById('expCancelBtn');
+        const expForm = document.getElementById("expenseForm");
+        const expDesc = document.getElementById("expDesc");
+        const expPrice = document.getElementById("expPrice");
+        const expQty = document.getElementById("expQty");
+        const expPreview = document.getElementById("expPreview");
+        const expHistory = document.getElementById("expenseHistory");
+        const expSubmitText = document.getElementById("expSubmitText");
+        const expSubmitIcon = document.getElementById("expSubmitIcon");
+        const expCancelBtn = document.getElementById("expCancelBtn");
 
-        // Referencias Balance
-        const totalIncomeEl = document.getElementById('totalIncome');
-        const totalExpenseEl = document.getElementById('totalExpense');
-        const netProfitEl = document.getElementById('netProfit');
-        const mainBalanceCard = document.getElementById('mainBalanceCard');
-        const balanceLabel = document.getElementById('balanceLabel');
-        const balanceStatus = document.getElementById('balanceStatus');
-        const balanceIcon = document.getElementById('balanceIcon');
-        const incomeBar = document.getElementById('incomeBar');
-        const expenseBar = document.getElementById('expenseBar');
+        // Referencias Fotos Gastos
+        const expPhotoInput = document.getElementById("expPhotoInput");
+        const expPhotoContainer = document.getElementById("expPhotoContainer");
+        const expPhotoPreview = document.getElementById("expPhotoPreview");
+
+        // Referencias Visor Modal
+        const imageViewerModal = document.getElementById("imageViewerModal");
+        const viewerImage = document.getElementById("viewerImage");
+        const viewerDesc = document.getElementById("viewerDesc");
+
+        // Balance Elements...
+        const totalIncomeEl = document.getElementById("totalIncome");
+        const totalExpenseEl = document.getElementById("totalExpense");
+        const netProfitEl = document.getElementById("netProfit");
+        const mainBalanceCard = document.getElementById("mainBalanceCard");
+        const balanceLabel = document.getElementById("balanceLabel");
+        const balanceStatus = document.getElementById("balanceStatus");
+        const balanceIcon = document.getElementById("balanceIcon");
+        const incomeBar = document.getElementById("incomeBar");
+        const expenseBar = document.getElementById("expenseBar");
+        const toastEl = document.getElementById("toast");
+        const toastMsg = document.getElementById("toastMsg");
 
         // Formateador
-        const formatMoney = (value) => new Intl.NumberFormat('es-SV', { style: 'currency', currency: 'USD' }).format(value);
+        const formatMoney = (value) =>
+            new Intl.NumberFormat("es-SV", {
+                style: "currency",
+                currency: "USD",
+            }).format(value);
 
         // Previsualizaciones en vivo
-        const updateIncPreview = () => {
-            const val = (parseFloat(incPrice.value) || 0) * (parseInt(incQty.value) || 1);
-            incPreview.innerText = formatMoney(val);
-        };
-        const updateExpPreview = () => {
-            const val = (parseFloat(expPrice.value) || 0) * (parseInt(expQty.value) || 1);
-            expPreview.innerText = formatMoney(val);
+        const updateIncPreview = () =>
+        (incPreview.innerText = formatMoney(
+            (parseFloat(incPrice.value) || 0) * (parseInt(incQty.value) || 1),
+        ));
+        const updateExpPreview = () =>
+        (expPreview.innerText = formatMoney(
+            (parseFloat(expPrice.value) || 0) * (parseInt(expQty.value) || 1),
+        ));
+        incPrice.addEventListener("input", updateIncPreview);
+        incQty.addEventListener("input", updateIncPreview);
+        expPrice.addEventListener("input", updateExpPreview);
+        expQty.addEventListener("input", updateExpPreview);
+
+        // --- LÓGICA DE FOTOS Y COMPRESIÓN ---
+        // Comprimir imagen usando Canvas para no llenar la memoria LocalStorage
+        const compressImage = (file, callback) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (event) => {
+                const img = new Image();
+                img.src = event.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    // Dimensiones máximas 500px (Suficiente para comprobantes y fotos estéticas)
+                    const MAX_WIDTH = 500;
+                    const MAX_HEIGHT = 500;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, width, height);
+                    // Calidad JPEG al 60%
+                    callback(canvas.toDataURL("image/jpeg", 0.6));
+                };
+            };
         };
 
-        incPrice.addEventListener('input', updateIncPreview);
-        incQty.addEventListener('input', updateIncPreview);
-        expPrice.addEventListener('input', updateExpPreview);
-        expQty.addEventListener('input', updateExpPreview);
+        // Handlers para inputs de archivos
+        incPhotoInput.addEventListener("change", (e) => {
+            if (e.target.files && e.target.files[0]) {
+                compressImage(e.target.files[0], (base64) => {
+                    currentIncImage = base64;
+                    incPhotoPreview.src = base64;
+                    incPhotoContainer.classList.remove("hidden");
+                });
+            }
+        });
 
-        // Cancelar Ediciones
+        expPhotoInput.addEventListener("change", (e) => {
+            if (e.target.files && e.target.files[0]) {
+                compressImage(e.target.files[0], (base64) => {
+                    currentExpImage = base64;
+                    expPhotoPreview.src = base64;
+                    expPhotoContainer.classList.remove("hidden");
+                });
+            }
+        });
+
+        // Eliminar fotos en formulario
+        window.removeIncPhoto = () => {
+            currentIncImage = null;
+            incPhotoInput.value = "";
+            incPhotoContainer.classList.add("hidden");
+        };
+
+        window.removeExpPhoto = () => {
+            currentExpImage = null;
+            expPhotoInput.value = "";
+            expPhotoContainer.classList.add("hidden");
+        };
+
+        // --- VISOR DE IMÁGENES ---
+        window.openImageViewer = (base64Image, desc) => {
+            viewerImage.src = base64Image;
+            viewerDesc.innerText = desc;
+            imageViewerModal.classList.remove("hidden");
+        };
+
+        window.closeImageViewer = () => {
+            imageViewerModal.classList.add("hidden");
+            setTimeout(() => {
+                viewerImage.src = "";
+                viewerDesc.innerText = "";
+            }, 200);
+        };
+
+        // --- CANCELAR EDICIONES ---
         window.cancelIncomeEdit = () => {
             editingIncomeId = null;
             incForm.reset();
-            incQty.value = '1';
+            incQty.value = "1";
             updateIncPreview();
+            removeIncPhoto(); // Limpiar foto
             incSubmitText.innerText = "Añadir Venta";
             incSubmitIcon.setAttribute("data-lucide", "plus");
-            incCancelBtn.classList.add('hidden');
+            incCancelBtn.classList.add("hidden");
             lucide.createIcons();
         };
 
         window.cancelExpenseEdit = () => {
             editingExpenseId = null;
             expForm.reset();
-            expQty.value = '1';
+            expQty.value = "1";
             updateExpPreview();
+            removeExpPhoto(); // Limpiar foto
             expSubmitText.innerText = "Añadir Gasto";
             expSubmitIcon.setAttribute("data-lucide", "minus");
-            expCancelBtn.classList.add('hidden');
+            expCancelBtn.classList.add("hidden");
             lucide.createIcons();
         };
 
-        // Editar Transacción
+        // --- EDITAR ---
         window.editTransaction = (id, type) => {
-            const t = transactions.find(x => x.id === id);
+            const t = transactions.find((x) => x.id === id);
             if (!t) return;
 
-            if (type === 'ingreso') {
-                cancelExpenseEdit(); // Cerrar edición del otro lado por si acaso
+            if (type === "ingreso") {
+                cancelExpenseEdit();
                 editingIncomeId = id;
                 incDesc.value = t.description;
                 incPrice.value = t.price;
                 incQty.value = t.quantity;
                 updateIncPreview();
+                if (t.image) {
+                    currentIncImage = t.image;
+                    incPhotoPreview.src = t.image;
+                    incPhotoContainer.classList.remove("hidden");
+                } else {
+                    removeIncPhoto();
+                }
                 incSubmitText.innerText = "Guardar";
                 incSubmitIcon.setAttribute("data-lucide", "save");
-                incCancelBtn.classList.remove('hidden');
-                document.querySelector('.order-2.lg\\:order-1').scrollIntoView({ behavior: 'smooth' });
+                incCancelBtn.classList.remove("hidden");
+                document
+                    .querySelector(".order-2.lg\\:order-1")
+                    .scrollIntoView({ behavior: "smooth" });
             } else {
                 cancelIncomeEdit();
                 editingExpenseId = id;
@@ -318,84 +577,145 @@
                 expPrice.value = t.price;
                 expQty.value = t.quantity;
                 updateExpPreview();
+                if (t.image) {
+                    currentExpImage = t.image;
+                    expPhotoPreview.src = t.image;
+                    expPhotoContainer.classList.remove("hidden");
+                } else {
+                    removeExpPhoto();
+                }
                 expSubmitText.innerText = "Guardar";
                 expSubmitIcon.setAttribute("data-lucide", "save");
-                expCancelBtn.classList.remove('hidden');
-                document.querySelector('.order-3.lg\\:order-2').scrollIntoView({ behavior: 'smooth' });
+                expCancelBtn.classList.remove("hidden");
+                document
+                    .querySelector(".order-3.lg\\:order-2")
+                    .scrollIntoView({ behavior: "smooth" });
             }
             lucide.createIcons();
         };
 
-        // Eliminar Transacción
-        window.deleteTransaction = (id, type) => {
+        // --- ELIMINAR ---
+        window.deleteTransaction = (id) => {
             if (editingIncomeId === id) cancelIncomeEdit();
             if (editingExpenseId === id) cancelExpenseEdit();
-            transactions = transactions.filter(t => t.id !== id);
+            transactions = transactions.filter((t) => t.id !== id);
             saveAndRender();
         };
 
-        const generateID = () => 'id-' + Math.random().toString(36).substr(2, 9);
+        // Notificación de Error (por si el almacenamiento se llena)
+        const showToast = (msg) => {
+            toastMsg.innerText = msg;
+            toastEl.classList.add("show");
+            setTimeout(() => toastEl.classList.remove("show"), 3000);
+        };
 
-        // Handlers de envío
+        // --- GUARDAR ---
         const handleFormSubmit = (e, type) => {
             e.preventDefault();
-            const isInc = type === 'ingreso';
+            const isInc = type === "ingreso";
             const desc = isInc ? incDesc.value.trim() : expDesc.value.trim();
             const price = parseFloat(isInc ? incPrice.value : expPrice.value);
             const qty = parseInt(isInc ? incQty.value : expQty.value) || 1;
+            const img = isInc ? currentIncImage : currentExpImage;
 
             if (!desc || isNaN(price)) return;
 
             const tData = {
-                description: desc, price, quantity: qty, amount: price * qty, type,
-                date: new Date().toLocaleDateString('es-ES', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+                description: desc,
+                price,
+                quantity: qty,
+                amount: price * qty,
+                type,
+                image: img,
+                date: new Date().toLocaleDateString("es-ES", {
+                    month: "short",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                }),
             };
 
             const editingId = isInc ? editingIncomeId : editingExpenseId;
+            const originalTransactions = [...transactions]; // Respaldo por si falla el guardado
 
             if (editingId) {
-                transactions = transactions.map(t => t.id === editingId ? { ...t, ...tData } : t);
-                isInc ? cancelIncomeEdit() : cancelExpenseEdit();
+                transactions = transactions.map((t) =>
+                    t.id === editingId ? { ...t, ...tData } : t,
+                );
             } else {
-                tData.id = crypto.randomUUID ? crypto.randomUUID() : generateID();
+                tData.id = "id-" + Math.random().toString(36).substr(2, 9);
                 transactions.unshift(tData);
-                isInc ? cancelIncomeEdit() : cancelExpenseEdit(); // Funciona como reset
             }
-            saveAndRender();
+
+            // Intentar guardar. Si falla por límite de LocalStorage (QuotaExceededError)
+            try {
+                localStorage.setItem(
+                    "aesthetic_finances_v3",
+                    JSON.stringify(transactions),
+                );
+                isInc ? cancelIncomeEdit() : cancelExpenseEdit();
+                renderUI();
+            } catch (error) {
+                transactions = originalTransactions; // Restaurar datos
+                showToast(
+                    "¡Espacio lleno! Elimina registros antiguos o sin foto para continuar.",
+                );
+            }
         };
 
-        incForm.addEventListener('submit', (e) => handleFormSubmit(e, 'ingreso'));
-        expForm.addEventListener('submit', (e) => handleFormSubmit(e, 'gasto'));
+        incForm.addEventListener("submit", (e) => handleFormSubmit(e, "ingreso"));
+        expForm.addEventListener("submit", (e) => handleFormSubmit(e, "gasto"));
 
-        // Guardar y Renderizar
         const saveAndRender = () => {
-            localStorage.setItem('aesthetic_finances_v2', JSON.stringify(transactions));
-            renderUI();
+            try {
+                localStorage.setItem(
+                    "aesthetic_finances_v3",
+                    JSON.stringify(transactions),
+                );
+                renderUI();
+            } catch (e) {
+                showToast("Error al guardar. Espacio insuficiente.");
+            }
         };
 
+        // --- RENDER HTML ITEMS ---
         const createHTMLItem = (t, editingId) => {
-            const isInc = t.type === 'ingreso';
-            const bgHover = isInc ? 'hover:bg-[#73DACA]/5' : 'hover:bg-[#F7768E]/5';
-            const borderCls = t.id === editingId 
-                ? (isInc ? 'border-[#73DACA] bg-[#73DACA]/5' : 'border-[#F7768E] bg-[#F7768E]/5')
-                : 'border-[#2D2D35] hover:border-[#3D3D48] bg-[#0F0F13]';
-            
-            const qtyStr = t.quantity > 1 ? `<span class="text-[10px] text-[#8B8B99] bg-[#1C1C22] px-1.5 py-0.5 rounded ml-2">x${t.quantity}</span>` : '';
-            const amountColor = isInc ? 'text-[#73DACA]' : 'text-[#F7768E]';
+            const isInc = t.type === "ingreso";
+            const bgHover = isInc ? "hover:bg-[#73DACA]/5" : "hover:bg-[#F7768E]/5";
+            const borderCls =
+                t.id === editingId
+                    ? isInc
+                        ? "border-[#73DACA] bg-[#73DACA]/5"
+                        : "border-[#F7768E] bg-[#F7768E]/5"
+                    : "border-[#2D2D35] hover:border-[#3D3D48] bg-[#0F0F13]";
+
+            const qtyStr =
+                t.quantity > 1
+                    ? `<span class="text-[10px] text-[#8B8B99] bg-[#1C1C22] px-1.5 py-0.5 rounded ml-2 whitespace-nowrap">x${t.quantity}</span>`
+                    : "";
+            const amountColor = isInc ? "text-[#73DACA]" : "text-[#F7768E]";
+
+            // Imagen Thumbnail si existe
+            const imgHTML = t.image
+                ? `<img src="${t.image}" onclick="openImageViewer('${t.image}', '${t.description}')" class="w-10 h-10 rounded-xl object-cover border border-[#2D2D35] cursor-pointer hover:border-[#9D7CD8] transition-colors flex-shrink-0">`
+                : `<div class="w-10 h-10 rounded-xl bg-[#1C1C22] border border-[#2D2D35] flex items-center justify-center flex-shrink-0"><i data-lucide="${isInc ? "tag" : "receipt"}" class="w-4 h-4 text-[#5A5A66]"></i></div>`;
 
             return `
-                <div class="group flex items-center justify-between p-3.5 rounded-2xl transition-all border ${borderCls} ${bgHover} fade-in">
-                    <div class="truncate pr-2">
-                        <p class="font-medium text-sm text-white flex items-center truncate">${t.description} ${qtyStr}</p>
-                        <p class="text-[10px] text-[#5A5A66] mt-0.5">${t.date}</p>
+                <div class="group flex items-center justify-between p-3 rounded-2xl transition-all border ${borderCls} ${bgHover} fade-in gap-3">
+                    <div class="flex items-center gap-3 overflow-hidden">
+                        ${imgHTML}
+                        <div class="truncate">
+                            <p class="font-medium text-sm text-white flex items-center truncate">${t.description} ${qtyStr}</p>
+                            <p class="text-[10px] text-[#5A5A66] mt-0.5">${t.date}</p>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-3 flex-shrink-0">
+                    <div class="flex items-center gap-2 flex-shrink-0">
                         <span class="font-medium text-sm ${amountColor}">${formatMoney(t.amount)}</span>
-                        <div class="flex items-center md:opacity-0 md:group-hover:opacity-100 transition-opacity">
-                            <button onclick="editTransaction('${t.id}', '${t.type}')" class="p-1.5 text-[#5A5A66] hover:text-white transition-colors" title="Editar">
+                        <div class="flex flex-col items-center gap-1 md:opacity-0 md:group-hover:opacity-100 transition-opacity ml-1">
+                            <button onclick="editTransaction('${t.id}', '${t.type}')" class="p-1 text-[#5A5A66] hover:text-white transition-colors" title="Editar">
                                 <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
                             </button>
-                            <button onclick="deleteTransaction('${t.id}', '${t.type}')" class="p-1.5 text-[#5A5A66] hover:text-[#F7768E] transition-colors" title="Eliminar">
+                            <button onclick="deleteTransaction('${t.id}')" class="p-1 text-[#5A5A66] hover:text-[#F7768E] transition-colors" title="Eliminar">
                                 <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                             </button>
                         </div>
@@ -405,72 +725,49 @@
         };
 
         const renderUI = () => {
-            const incomes = transactions.filter(t => t.type === 'ingreso');
-            const expenses = transactions.filter(t => t.type === 'gasto');
-            
+            const incomes = transactions.filter((t) => t.type === "ingreso");
+            const expenses = transactions.filter((t) => t.type === "gasto");
+
             const totalInc = incomes.reduce((sum, t) => sum + t.amount, 0);
             const totalExp = expenses.reduce((sum, t) => sum + t.amount, 0);
             const netProfit = totalInc - totalExp;
 
-            // Actualizar Totales
             totalIncomeEl.innerText = formatMoney(totalInc);
             totalExpenseEl.innerText = formatMoney(totalExp);
-            
-            // Lógica de Tarjeta Balance Principal
+
             if (netProfit >= 0) {
-                // Estado: Ganancia
-                mainBalanceCard.className = "bg-[#9D7CD8] text-white p-7 md:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(157,124,216,0.2)] relative overflow-hidden transition-all duration-500";
+                mainBalanceCard.className =
+                    "bg-[#9D7CD8] text-white p-7 md:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(157,124,216,0.2)] relative overflow-hidden transition-all duration-500";
                 balanceLabel.innerText = "Ganancia Neta";
                 balanceStatus.innerText = "Tus ventas superan tus gastos";
                 netProfitEl.innerText = formatMoney(netProfit);
                 balanceIcon.setAttribute("data-lucide", "wallet");
             } else {
-                // Estado: Inversión / Pérdida (Color más rojizo suave)
-                mainBalanceCard.className = "bg-[#D96B7B] text-white p-7 md:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(217,107,123,0.2)] relative overflow-hidden transition-all duration-500";
+                mainBalanceCard.className =
+                    "bg-[#D96B7B] text-white p-7 md:p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(217,107,123,0.2)] relative overflow-hidden transition-all duration-500";
                 balanceLabel.innerText = "Inversión / Pedidos";
                 balanceStatus.innerText = "Falta recuperar con ventas";
                 netProfitEl.innerText = formatMoney(Math.abs(netProfit));
                 balanceIcon.setAttribute("data-lucide", "package-open");
             }
 
-            // Actualizar barras de proporción
-            const totalSum = totalInc + totalExp || 1; // evitar division por 0
+            const totalSum = totalInc + totalExp || 1;
             incomeBar.style.width = `${(totalInc / totalSum) * 100}%`;
             expenseBar.style.width = `${(totalExp / totalSum) * 100}%`;
 
-            // Listas
-            incHistory.innerHTML = incomes.length ? incomes.map(t => createHTMLItem(t, editingIncomeId)).join('') : 
-                `<div class="text-center py-8"><i data-lucide="receipt" class="w-6 h-6 text-[#2D2D35] mx-auto mb-2"></i><p class="text-xs text-[#5A5A66]">No hay ventas aún</p></div>`;
-            
-            expHistory.innerHTML = expenses.length ? expenses.map(t => createHTMLItem(t, editingExpenseId)).join('') : 
-                `<div class="text-center py-8"><i data-lucide="shopping-cart" class="w-6 h-6 text-[#2D2D35] mx-auto mb-2"></i><p class="text-xs text-[#5A5A66]">No hay gastos aún</p></div>`;
+            incHistory.innerHTML = incomes.length
+                ? incomes.map((t) => createHTMLItem(t, editingIncomeId)).join("")
+                : `<div class="text-center py-8"><i data-lucide="image-off" class="w-6 h-6 text-[#2D2D35] mx-auto mb-2"></i><p class="text-xs text-[#5A5A66]">No hay ventas aún</p></div>`;
+
+            expHistory.innerHTML = expenses.length
+                ? expenses.map((t) => createHTMLItem(t, editingExpenseId)).join("")
+                : `<div class="text-center py-8"><i data-lucide="image-off" class="w-6 h-6 text-[#2D2D35] mx-auto mb-2"></i><p class="text-xs text-[#5A5A66]">No hay gastos aún</p></div>`;
 
             lucide.createIcons();
         };
 
         renderUI();
-
-        // PWA Setup (Simplificado para el botón en la cabecera)
-        const setupPWA = () => {
-            const manifest = {
-                name: "Finanzas Dashboard", short_name: "Finanzas", start_url: window.location.href, display: "standalone",
-                background_color: "#0F0F13", theme_color: "#0F0F13",
-                icons: [{ src: "data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='192' height='192' style='background-color:%230F0F13'%3E%3Cpath fill='%239D7CD8' d='M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2h2v-2h2v-2h-2V9h-2v2H9v2h2z'/%3E%3C/svg%3E", sizes: "192x192", type: "image/svg+xml" }]
-            };
-            const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/manifest+json'});
-            document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
-        };
-        setupPWA();
-        
-        const installBtn = document.getElementById('installBtn');
-        let deferredPrompt;
-        if (!window.matchMedia('(display-mode: standalone)').matches && !navigator.standalone) installBtn.classList.remove('hidden');
-        window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) { deferredPrompt.prompt(); const { outcome } = await deferredPrompt.userChoice; if (outcome === 'accepted') installBtn.classList.add('hidden'); deferredPrompt = null; }
-            else { alert("Para instalar: \n\n📱 En iPhone: Toca 'Compartir' en Safari y luego 'Agregar a Inicio'.\n🤖 En Android: Toca el menú (3 puntos) y selecciona 'Instalar aplicación'."); }
-        });
-
     </script>
 </body>
+
 </html>
